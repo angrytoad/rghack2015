@@ -27,7 +27,7 @@ angular.module("LobbyApp", [])
 		}
 	}
 })
-.controller("LobbyCtrl", ["$scope", "Lobby",  function($scope, Lobby){
+.controller("LobbyCtrl", ["$scope", "$location", "Lobby", "Match",  function($scope, $location, Lobby, Match){
 
 	$scope.form = {
 		isSearching: false
@@ -35,8 +35,13 @@ angular.module("LobbyApp", [])
 
 	//finds a match
 	$scope.play = function(){
+		$scope.form.isSearching = true;
 
-		Lobby.findMatch().then(function(){
+		Lobby.findMatch().then(function(game){
+			//load match object
+			Match.game = game;
+			//go to match
+			$location.url("/match");
 
 		})
 	}

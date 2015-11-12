@@ -44,7 +44,7 @@ angular.module("LoginApp", [])
 		authenticateUser: function(name){
 			var p = $q.defer();
 
-			$http.post("login/login.php", {name: name})
+			$http.post("login/login.php", {action: "authenticateUser", name: name})
 				//if status 200 
 				.success(function(result){
 					p.resolve(result);
@@ -55,6 +55,14 @@ angular.module("LoginApp", [])
 				})
 
 			return p.promise;
+		},
+		verifyAccount: function(id, key){
+			var p = $q.defer();
+
+			$http.post("login/login.php", {action: "verifyAccount", id: id, runepageString: key})
+
+
+			return p.promise;;
 		}
 	}
 })

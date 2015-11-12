@@ -2,10 +2,12 @@
 
 angular.module('CoreApp', [
 	'ngRoute',
+	"ngAnimate",
 	'SampleApp',
 	"HomeApp",
 	"LoginApp",
-	"LobbyApp"
+	"LobbyApp",
+	"MatchApp"
 ])
 .run(['$log', '$http', '$rootScope', function($log, $http, $rootScope){
 	

@@ -14,7 +14,7 @@ class dbconnection
         $this->db = new MysqliDb (Array (
             'host' => '127.0.0.1',
             'username' => 'root',
-            'password' => '123',
+            'password' => 'root',
             'db'=> 'lcg_db',
             'port' => 3306,
             'charset' => 'utf8'));
