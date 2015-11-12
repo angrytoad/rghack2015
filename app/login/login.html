@@ -4,16 +4,18 @@
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Summoner Name" ng-model="form.name"/>
 				<span class="input-group-btn">
-					<button type="button" class="btn btn-default" ng-click="getRunepageKey()">Go!</button>
+					<button type="button" class="btn btn-default" ng-click="getRunepageKey()" ng-disabled="form.name.length <= 2">Go!</button>
 				</span>
 			</div>
+
+			<p class="text-center" ng-if="form.notFound">Summoner name not found!</p>
 		</div>
 		
 		<!--verification box-->
 		<div ng-if="form.runepageKey.length > 0">
-			<p>Name one of your runepages to the following key <strong>"{{form.runepageKey}}"</strong> so that we can verify your account</p>
+			<p>Name one of your runepages to the following <strong>"{{form.runepageKey}}"</strong> so that we can verify your account</p>
 			
-			<button type="button" class="btn btn-default btn-block">Verify</button>
+			<button type="button" class="btn btn-default btn-block" ng-click="verifyAccount()">Verify</button>
 		</div>
 
 	</div>
