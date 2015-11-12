@@ -15,11 +15,8 @@ router.post('/*', function(req, res, next) {
 })
 
 router.post('/init', function(req, res, next) {
-  console.log(req.body);
-  var deck0 = JSON.parse(req.body.deck0);
-  var deck1 = JSON.parse(req.body.deck1);
-  game.initGame(deck0, deck1);
-  res.send('game initialized');
+  var deck = JSON.parse(req.body.deck);
+  res.send(game.initGame(deck));
 });
 
 router.get('/clear', function(req, res, next) {
