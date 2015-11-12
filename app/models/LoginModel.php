@@ -39,7 +39,7 @@ class LoginModel extends RiotApi
                 }
                 $validRunepage = false;
                 foreach($returned->{$uid}->pages as $summonerRunepage) {
-                    if($summonerRunepage->name == "The Prince") {
+                    if($summonerRunepage->name == $runepage) {
                         $validRunepage = true;
                     }
                 }
