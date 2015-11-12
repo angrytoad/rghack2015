@@ -1,21 +1,23 @@
 <div class="container">
 	<div class="well" style="margin-top: 20%; width: 550px; margin-left: auto; margin-right: auto; display: table">
-		<div class="form-inline" ng-if="form.runepageKey == null">
-			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Summoner Name" ng-model="form.name"/>
+		
+			<div class="input-group" ng-if="form.runepageKey == null">
+				<input type="text" class="form-control" placeholder="Summoner Name" ng-model="form.name" ng-keydown="authenticateUserEnter($event)"/>
 				<span class="input-group-btn">
-					<button type="button" class="btn btn-default" ng-click="getRunepageKey()" ng-disabled="form.name.length <= 2">Go!</button>
+					<button type="button" class="btn btn-default" ng-click="authenticateUser()" ng-disabled="form.name.length <= 2">
+						<i class="ion-android-arrow-dropright-circle"></i>
+					</button>
 				</span>
 			</div>
 
 			<p class="text-center" ng-if="form.notFound">Summoner name not found!</p>
-		</div>
+	
 		
 		<!--verification box-->
 		<div ng-if="form.runepageKey.length > 0">
 			<p>Name one of your runepages to the following <strong>"{{form.runepageKey}}"</strong> so that we can verify your account</p>
 			
-			<button type="button" class="btn btn-default btn-block" ng-click="verifyAccount()">Verify</button>
+			<button type="button" class="btn btn-default btn-block" ng-click="verifyAccount()"><i class="ion-android-checkmark-circle"></i> Verify</button>
 		</div>
 
 	</div>

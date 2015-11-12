@@ -27,7 +27,7 @@ class LoginController{
 
     public function authenticateUser($posted){
         if($this->login->attemptAuthentication($posted)){
-            return responder::sendResponse(200);
+            return responder::sendResponse(200, array("runepageKey" => "WxYzAbc1"));
         }else {
             return responder::sendResponse(400);
         }

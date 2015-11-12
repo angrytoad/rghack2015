@@ -8,10 +8,6 @@ angular.module("LoginApp", [])
 			controller: "LoginCtrl"
 		})
 }])
-.factory("Login", function($q, $timeout, LoginMock){
-	//when testing
-	return LoginMock
-})
 .factory("LoginMock", function($q, $timeout){
 	return {
 		getRunepageKey: function(name){
@@ -42,8 +38,26 @@ angular.module("LoginApp", [])
 		}
 	}
 })
+.factory("Login", function($q, $timeout, $http, LoginMock){
+	return {
+		authenticateUser: function(name){
+			var p = $q.defer();
 
-.controller("LoginCtrl", ['$scope', '$log', 'LoginMock', function($scope, $log,  Login){
+			$http.post("login/login.php", {name: name})
+				//if status 200 
+				.success(function(result){
+					p.resolve(result.runepageKey);
+				})
+				//if 400
+				.error(function(result){
+					p.reject(false);
+				})
+
+			return p.promise;
+		}
+	}
+})
+.controller("LoginCtrl", ['$scope', '$log', 'Login', function($scope, $log,  Login){
 	//form object
 	$scope.form = {
 		name: "",
@@ -52,9 +66,9 @@ angular.module("LoginApp", [])
 	}
 
 	//verifies the user name, returns a random generated string for the user to name a runepage as.
-	$scope.getRunepageKey = function(){
+	$scope.authenticateUser = function(){
 
-		Login.getRunepageKey($scope.form.name).then(function(result){
+		Login.authenticateUser($scope.form.name).then(function(result){
 			$scope.form.runepageKey = result;
 			$scope.form.notFound = false;
 		})
@@ -65,6 +79,13 @@ angular.module("LoginApp", [])
 			$scope.form.notFound = true;
 		})
 	};
+
+	$scope.authenticateUserEnter = function(e){
+		var key = e.keyCode || e.which;
+
+		if(key === 13 && $scope.form.name.length > 2)
+			$scope.authenticateUser();
+	}
 
 	$scope.verifyAccount = function(){
 		//Login
