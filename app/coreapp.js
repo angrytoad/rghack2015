@@ -2,7 +2,9 @@
 
 angular.module('CoreApp', [
 	'ngRoute',
-	'SampleApp'
+	'SampleApp',
+	"HomeApp",
+	"LoginApp"
 ])
 .run(['$log', '$http', '$rootScope', function($log, $http, $rootScope){
 	
