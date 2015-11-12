@@ -29,4 +29,44 @@ class LoginModel extends RiotApi
             return false;
         }
     }
+
+    public function checkForRunepage($uid,$runepage){
+        if(count($this->db->where('user_id',$uid)->get('RunePageVerification')) > 0){
+            if(count($this->db->where('runepage_string',$runepage)->where('user_id',$uid)->get('RunePageVerification')) > 0){
+                $returned = $this->getUserRunepage($uid);
+                if($returned === false){
+                    return false;
+                }
+                $validRunepage = false;
+                foreach($returned->{$uid}->pages as $summonerRunepage) {
+                    if($summonerRunepage->name == "The Prince") {
+                        $validRunepage = true;
+                    }
+                }
+                if($validRunepage) {
+                    if (count($this->db->where('summonerID', $uid)->get('Users')) == 0) {
+                        $userUUID = genString::random32();
+                        $data = array(
+                            'uuid' => $userUUID,
+                            'summonerID' => htmlspecialchars($uid)
+                        );
+                        if ($this->db->insert('Users', $data)) {
+                            if ($this->db->where('user_id',$uid)->delete('RunePageVerification')) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+
+    }
 }

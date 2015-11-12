@@ -21,4 +21,13 @@ class RiotApi
             responder::sendResponse(400);
         }
     }
+
+    public function getUserRunepage($uid){
+        if($response = file_get_contents('https://'.strtolower($this->region).'.api.pvp.net/api/lol/'.strtolower($this->region).'/v1.4/summoner/'.$uid.'/runes?api_key='.$this->key)){
+            $response = json_decode($response);
+            return $response;
+        }else{
+            return false;
+        }
+    }
 }

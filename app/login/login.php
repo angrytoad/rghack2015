@@ -24,17 +24,23 @@ class LoginController{
         $this->request = new requestObject();
         $this->login = new LoginModel();
         $this->post = $this->request->getPOST();
-        switch($this->post->action){
-            case 'authenticateUser':
-                $this->authenticateUser($this->post);
-            break;
-            case 'verifyUser':
-                $this->verifyUser($this->post);
+        if(isset($this->post->action)) {
+            switch ($this->post->action) {
+                case 'authenticateUser':
+                    $this->authenticateUser($this->post);
+                    break;
+                case 'verifyAccount':
+                    $this->verifyUser($this->post);
+                    break;
+                default:
+                    responder::sendResponse(400);
+            }
         }
 
     }
 
-    public function authenticateUser($posted){
+    public function authenticateUser($posted)
+    {
        // var_dump($posted);
         if(isset($posted->name) && strlen($posted->name) > 0) {
             if ($this->login->attemptAuthentication($posted->name)) {
@@ -47,8 +53,15 @@ class LoginController{
         }
     }
 
-    public function verifyUser($posted){
-
+    public function verifyUser($posted)
+    {
+        $uid = $posted->runepageString[0];
+        $runepage = $posted->runepageString[1];
+        if($this->login->checkForRunepage($uid,$runepage)){
+            return responder::sendResponse(200);
+        }else{
+            return responder::sendResponse(400);
+        }
     }
 
 }
