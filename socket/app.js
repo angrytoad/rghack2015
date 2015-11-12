@@ -56,6 +56,8 @@ app.use(function(err, req, res, next) {
 
 var backendroutes = require('./routes/backend');
 var backendapp = express();
+backendapp.use(bodyParser.json());
+backendapp.use(bodyParser.urlencoded({ extended: false }));
 backendapp.use('/', backendroutes);
 
 module.exports = {
