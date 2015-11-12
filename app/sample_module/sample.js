@@ -4,7 +4,7 @@ angular.module("SampleApp", [])
 .config(['$routeProvider', function($routeProvider){
 	$routeProvider
 		.when('/sample', {
-			templateUrl: "app/sample_module/sample.html",
+			templateUrl: "sample_module/sample.html",
 			controller: "SampleCtrl"
 		})
 }])
