@@ -12,7 +12,7 @@ class LoginModel extends RiotApi
 
     }
 
-    public function attemptAuthentication(){
-        return true;
+    public function attemptAuthentication($name){
+        return $this->searchForUser($name);
     }
 }
