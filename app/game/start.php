@@ -1,6 +1,6 @@
 <?php
 	
-	$deck = "[Zilean, Kindred, Brand, Sona, Teemo, Caitlyn Cho'Gath, Karthus, Bard, Riven, Rengar, Master Yi, Maokai, Morgana, Darius, Soraka]";
+	$deck = '["Zilean", "Kindred", "Brand", "Sona", "Teemo", "Caitlyn", "ChoGath", "Karthus", "Bard", "Riven", "Rengar", "Master Yi", "Maokai", "Morgana", "Darius", "Soraka"]';
 	
 	error_reporting( E_ALL );
 	ini_set( "display_errors", 1 );
