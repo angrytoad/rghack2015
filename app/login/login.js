@@ -39,7 +39,7 @@ angular.module("LoginApp", [])
 	}
 })
 .factory("Login", function($q, $timeout, $http, LoginMock){
-	return LoginMock;
+	//return LoginMock;
 	return {
 		authenticateUser: function(name){
 			var p = $q.defer();
@@ -47,7 +47,7 @@ angular.module("LoginApp", [])
 			$http.post("login/login.php", {name: name})
 				//if status 200 
 				.success(function(result){
-					p.resolve(result.runepageKey);
+					p.resolve(result);
 				})
 				//if 400
 				.error(function(result){

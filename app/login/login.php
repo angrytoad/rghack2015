@@ -26,9 +26,10 @@ class LoginController{
     }
 
     public function authenticateUser($posted){
-        if(isset($posted['name']) && strlen($posted['name']) > 0) {
-            if ($this->login->attemptAuthentication($posted['name'])) {
-                return responder::sendResponse(200, $posted['name']);
+       // var_dump($posted);
+        if(isset($posted->name) && strlen($posted->name) > 0) {
+            if ($this->login->attemptAuthentication($posted->name)) {
+                return responder::sendResponse(200);
             } else {
                 return responder::sendResponse(400);
             }
