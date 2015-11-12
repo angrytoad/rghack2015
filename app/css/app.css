@@ -21,8 +21,24 @@ body {
   	height: 100%;
 }
 
+/* Card Template Styles */
 
+.card {
+	
+}
 
+.card img {
+	height: 250px;
+	width: 250px;
+}
+
+.card div {
+	
+}
+
+.card div p {
+	
+}
 /* ANIMATIONS
 ============================================================================= */
 
