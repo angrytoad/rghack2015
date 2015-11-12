@@ -30,4 +30,22 @@ class RiotApi
             return false;
         }
     }
+
+    public function loadSummonerInformationByName($name){
+        if($response = file_get_contents('https://'.strtolower($this->region).'.api.pvp.net/api/lol/'.strtolower($this->region).'/v1.4/summoner/by-name/'.$name.'?api_key='.$this->key)){
+            $response = json_decode($response);
+            return $response;
+        }else{
+            return false;
+        }
+    }
+
+    public function getChampionMasteries($uid){
+        if($response = file_get_contents('https://'.strtolower($this->region).'.api.pvp.net/championmastery/location/NA1/player/'.$uid.'/champions?api_key='.$this->key)){
+            $response = json_decode($response);
+            return $response;
+        }else{
+            return false;
+        }
+    }
 }
