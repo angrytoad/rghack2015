@@ -16,8 +16,7 @@ class RiotApi
         $this->username = $username;
         if($response = @file_get_contents('https://global.api.pvp.net/api/lol/'.strtolower($this->region).'/v1.4/summoner/by-name/'.htmlspecialchars($username).'?summonerName='.$username.'&api_key='.$this->key)) {
             $response = json_decode($response);
-            echo json_encode([$response->{strtolower($username)}->id,genString::random8()]);
-            return true;
+            return json_encode([$response->{strtolower($username)}->id,genString::random8()]);;
         }else{
             responder::sendResponse(400);
         }

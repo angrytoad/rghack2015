@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Created by PhpStorm.
  * User: hackathon
@@ -9,10 +10,23 @@
 class LoginModel extends RiotApi
 {
     public function __construct(){
-
+        $this->db = dbconnection::createConnection();
     }
 
     public function attemptAuthentication($name){
-        return $this->searchForUser($name);
+        $returned = $this->searchForUser($name);
+        $db_data = json_decode($returned);
+        $data = array(
+            'uuid' => genString::random32(),
+            'user_id' => (string) $db_data[0],
+            'runepage_string' => $db_data[1],
+            'created_at' => $this->db->now()
+        );
+        if($this->db->insert('RunePageVerification',$data)){
+            echo $returned;
+            return true;
+        }else{
+            return false;
+        }
     }
 }
