@@ -2,6 +2,18 @@ var express = require('express');
 var router = express.Router();
 var game = require('../game');
 
+router.get('/*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+  next();
+})
+
+router.post('/*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+  next();
+})
+
 router.get('/game', function(req, res, next) {
   var player = parseInt(req.query.player);
   game.sockets[player] = res;
