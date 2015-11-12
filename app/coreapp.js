@@ -4,7 +4,8 @@ angular.module('CoreApp', [
 	'ngRoute',
 	'SampleApp',
 	"HomeApp",
-	"LoginApp"
+	"LoginApp",
+	"LobbyApp"
 ])
 .run(['$log', '$http', '$rootScope', function($log, $http, $rootScope){
 	
