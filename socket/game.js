@@ -10,7 +10,7 @@ var game = {
   sockets: [null, null],
 
   initGame: function(deck) {
-    if (this.players == null) {
+    if (this.players == null || this.players[1] != null) {
       this.players = [];
       this.players[0] = {
         'field' : {},
