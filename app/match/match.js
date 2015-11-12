@@ -11,22 +11,23 @@ angular.module("MatchApp", [])
 .service("Match", function(){
 	this.game = {
 		gameID: 747,
-		playerOne: {
+		player0: {
 			profileId: 511,
 			name: "Sal", 
 			currentHealth: 100
 		},
-		playerTwo: {
-			profileId: 400,
-			name: "Phreak"
+		player1: {
+			profileId: 901,
+			name: "Phreak",
+			currentHealth: 100
 		}
 	};
 })
-.controller("MatchCtrl", ['$scope', '$interval', 'Match', function($scope, $interval, Match){
+.controller("MatchCtrl", ['$scope', '$interval', 'User', 'Match', function($scope, $interval, User, Match){
 	$scope.game = Match.game;
 
 	$interval(function(){
-		$scope.game.playerOne.currentHealth = ($scope.game.playerOne.currentHealth > 0) ? $scope.game.playerOne.currentHealth-1 : 120;
+		$scope.game.player1.currentHealth = ($scope.game.player1.currentHealth > 0) ? $scope.game.player1.currentHealth-1 : 120;
 	}, 100);
 
 	$scope.dims = {
@@ -47,7 +48,8 @@ angular.module("MatchApp", [])
 	})
 
 	//socket stuff
-	var player0 = new EventSource('http://52.32.183.170:3000/game?player=0');
+	var sourceUrl = 'http://52.32.183.170:3000/game?player=' + User.playerNum;
+	var player0 = new EventSource(sourceUrl);
  	player0.onmessage = function(event) {
     	console.log(event.data);
   	};

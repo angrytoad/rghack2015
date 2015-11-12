@@ -20,6 +20,7 @@ angular.module('CoreApp', [
 }])
 .service("User", function(){
 	this.user = {};
+	this.playerNum = null;
 })
 
 //Father Controller

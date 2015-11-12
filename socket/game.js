@@ -55,7 +55,7 @@ var game = {
     var id = this.players[player].deck.length;
     var champion = this.players[player].deck.pop();
     console.log('Player ' + player + ' drawn ' + champion);
-    var cardinstance = new Card('card' + player + id, champion);
+    var cardinstance = new Card(player, id, champion);
     this.players[player].hand[cardinstance.id] = cardinstance;
     var o = {
       type: "draw",
@@ -80,23 +80,41 @@ var game = {
 
   placeCard: function(player, hand) {
     console.log('placing card');
-    console.log(this.players[player].hand);
-    console.log(this.players[player].field);
     this.players[player].field[hand] = this.players[player].hand[hand];
     delete this.players[player].hand[hand];
-    console.log(this.players[player].hand);
-    console.log(this.players[player].field);
+    this.players[player].field[hand].container = 'field';
+    this.sendState();
   },
 
   attack: function(player, card, target, cb) {
     var enemy = 1 - player;
     var damage = this.players[player].field[card].damage;
-    this.players[enemy].field[target].dealDamage(damage, cb);
+    this.players[enemy].field[target].dealDamage(damage);
+    this.checkDeath();
+    this.sendState();
   },
 
   ability: function(player, card, target, cb) {
     var enemy = 1 - player;
-    this.players[player].field[card].ability(cb);
+    var a = this.players[player].field;
+    var e = this.players[enemy].field;
+    console.log(a);
+    console.log(e);
+    console.log(this.players[player].field[card].ability);
+    this.players[player].field[card].ability(a, e, target);
+    this.checkDeath();
+    this.sendState();
+  },
+
+  checkDeath: function() {
+    for (var j = 0; j < 2; j++) {
+      var keys = Object.keys(this.players[j].field);
+      for (var i in keys) {
+        if (this.players[j].field[keys[i]].health < 0) {
+          delete this.players[j].field[keys[i]];
+        }
+      }
+    }
   },
 
   sendData: function(player, type, data) {
@@ -113,15 +131,12 @@ var game = {
     console.log(action.hand);
     if (action.type == "place") {
       this.placeCard(player, action.hand);
-      this.sendState();
     }
     if (action.type == "attack") {
-      this.attack(player, action.card, action.target, function() {
-      });
+      this.attack(player, action.card, action.target);
     }
     if (action.type == "ability") {
-      this.ability(player, action.card, action.target, function() {
-      });
+      this.ability(player, action.card, action.target);
     }
     if (action.type == "endturn") {
       this.nextTurn();
