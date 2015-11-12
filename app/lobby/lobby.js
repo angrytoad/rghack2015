@@ -19,7 +19,15 @@ angular.module("LobbyApp", [])
 
 			$timeout(function(){
 				p.resolve({
-					gameID: 747
+					gameID: 747,
+					playerOne: {
+						profileId: 500,
+						name: "Sal"
+					},
+					playerTwo: {
+						profileId: 400,
+						name: "Phreak"
+					}
 				});
 			}, 1000);
 
