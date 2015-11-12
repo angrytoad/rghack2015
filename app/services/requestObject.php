@@ -22,9 +22,6 @@ class requestObject
     }
     private function loadFromPOST(){
         $this->post = json_decode(file_get_contents("php://input"));
-        // foreach($_POST as $key => $value){
-        //     $this->post[$key] = $value;
-        // }
     }
     private function requestMerge(){
         $this->request['GET'] = $this->get;
