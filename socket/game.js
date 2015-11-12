@@ -17,6 +17,7 @@ var game = {
         'hand': {},
         'deck': deck,
       };
+      this.sockets = [null, null];
       return '0';
     }
     this.players[1] = {
