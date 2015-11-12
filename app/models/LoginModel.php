@@ -59,6 +59,8 @@ class LoginModel extends RiotApi
                         } else {
                             return false;
                         }
+                    }else{
+                        return true;
                     }
                 }
             }else{
