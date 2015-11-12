@@ -7,7 +7,8 @@ angular.module('CoreApp', [
 	"HomeApp",
 	"LoginApp",
 	"LobbyApp",
-	"MatchApp"
+	"MatchApp",
+	"ui.bootstrap"
 ])
 .run(['$log', '$http', '$rootScope', function($log, $http, $rootScope){
 	
@@ -17,6 +18,9 @@ angular.module('CoreApp', [
 	$logProvider.debugEnabled(true);
 	//$routeProvider.otherwise({redirectTo: '/eventtracker'})
 }])
+.service("User", function(){
+	this.user = {};
+})
 
 //Father Controller
 .controller('MainCtrl', ['$scope', '$http', '$log', function($scope, $http, $log){

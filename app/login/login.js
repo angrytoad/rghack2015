@@ -31,7 +31,10 @@ angular.module("LoginApp", [])
 
 			//WHEN 200
 			$timeout(function(){
-				p.resolve(true);
+				p.resolve({
+					iconId: 511,
+					championMasteries: []
+				});
 			})
 
 			return p.promise;
@@ -39,7 +42,7 @@ angular.module("LoginApp", [])
 	}
 })
 .factory("Login", function($q, $timeout, $http, LoginMock){
-	//return LoginMock;
+	return LoginMock;
 	return {
 		authenticateUser: function(name){
 			var p = $q.defer();
@@ -60,13 +63,18 @@ angular.module("LoginApp", [])
 			var p = $q.defer();
 
 			$http.post("login/login.php", {action: "verifyAccount", id: id, runepageString: key})
-
+				.success(function(result){
+					p.resolve(true);
+				})
+				.error(function(){
+					p.reject(false);
+				})
 
 			return p.promise;;
 		}
 	}
 })
-.controller("LoginCtrl", ['$scope', '$log', '$location', 'Login', function($scope, $log, $location, Login){
+.controller("LoginCtrl", ['$scope', '$log', '$location', 'Login', 'User', function($scope, $log, $location, Login, User){
 	//form object
 	$scope.form = {
 		name: "",
@@ -101,6 +109,7 @@ angular.module("LoginApp", [])
 		Login.verifyAccount($scope.form.name, $scope.form.runepageKey).then(function(result){
 			//they are logged in, send them to the home page
 			$log.debug("Log in");
+			User.user = result;
 			$location.url("/lobby");
 		})
 		//fails
