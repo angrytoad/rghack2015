@@ -1,38 +1,67 @@
+var Card = require('./card');
+
 var game = {
   
-  teams: null,
+  // constants
+  deckSize: 10,
+
+  players: null,
   turn: 0,
   sockets: [null, null],
 
   initGame: function(deck0, deck1) {
-    this.teams = [];
-    this.teams[0] = {
-      'slot0' : null,
-      'slot1' : null,
-      'slot2' : null,
-      'slot3' : null,
-      'slot4' : null,
-      'hand': [],
+    this.players = [];
+    this.players[0] = {
+      'field' : {},
+      'hand': {},
       'deck': deck0,
     };
-    this.teams[1] = {
-      'slot0' : null,
-      'slot1' : null,
-      'slot2' : null,
-      'slot3' : null,
-      'slot4' : null,
-      'hand': [],
+    this.players[1] = {
+      'field' : {},
+      'hand': {},
       'deck': deck1,
     };
     this.turn = 0;
     console.log('game initialized');
-    console.log('this.teams');
+    console.log('this.players');
   },
 
   startGame: function() {
     console.log('starting game');
-    this.sendHealth();
-    this.endGame();
+    this.shuffleDecks();
+    for (var i = 0; i < 5; i++) {
+      for (var j = 0; j < 2; j++) {
+        this.drawCard(j);
+      }
+    }
+    console.log(this.players[0].deck);
+    console.log(this.players[1].deck);
+    this.sendState();
+    //this.endGame();
+  },
+
+  shuffleDecks: function() {
+    for (var k = 0; k < 2; k++) {
+      for (var i = 0; i < this.deckSize; i++) {
+        var j = Math.floor(Math.random() * i);
+        var o = this.players[k].deck[j];
+        this.players[k].deck[j] = this.players[k].deck[i];
+        this.players[k].deck[i] = o;
+      }
+    }
+  },
+
+  drawCard: function(player) {
+    var id = this.players[player].deck.length;
+    var champion = this.players[player].deck.pop();
+    console.log('Player ' + player + ' drawn ' + champion);
+    var cardinstance = new Card('card' + player + id, champion);
+    this.players[player].hand[cardinstance.id] = cardinstance;
+    var o = {
+      type: "draw",
+      card: cardinstance
+    };
+    this.sendData(player, 'draw', cardinstance);
   },
 
   endGame: function() {
@@ -40,27 +69,63 @@ var game = {
     this.sockets[1].end();
   },
 
-  sendHealth: function() {
-    var healths = [{}, {}];
-    for (var i = 0; i < 5; i++) {
-      healths[0]['slot' + i] = this.teams[0]['slot' + i] ? this.teams[0]['slot' + i].health : null;
-      healths[1]['slot' + i] = this.teams[1]['slot' + i] ? this.teams[1]['slot' + i].health : null;
-    }
-    
-    var healthstr = JSON.stringify(healths);
-    for (var i = 0; i < 2; i++) {
-      this.sockets[i].write('data: ' +  healthstr + '\n\n');
-    }
+  sendState: function() {
+    this.sendData(0, 'player', this.players[0].field);
+    this.sendData(0, 'enemy', this.players[1].field);
+    this.sendData(0, 'hand', this.players[0].hand);
+    this.sendData(1, 'enemy', this.players[0].field);
+    this.sendData(1, 'player', this.players[1].field);
+    this.sendData(1, 'hand', this.players[1].hand);
+  },
+
+  placeCard: function(player, hand) {
+    console.log('placing card');
+    console.log(this.players[player].hand);
+    console.log(this.players[player].field);
+    this.players[player].field[hand] = this.players[player].hand[hand];
+    delete this.players[player].hand[hand];
+    console.log(this.players[player].hand);
+    console.log(this.players[player].field);
+  },
+
+  attack: function(player, card, target, cb) {
+    var enemy = 1 - player;
+    var damage = this.players[player].field[card].damage;
+    this.players[enemy].field[target].dealDamage(damage, cb);
+  },
+
+  ability: function(player, card, target, cb) {
+    var enemy = 1 - player;
+    this.players[player].field[card].ability(cb);
+  },
+
+  sendData: function(player, type, data) {
+    this.sockets[player].write('data: ' + JSON.stringify({type: type, data: data}) + '\n\n');
+  },
+
+  nextTurn: function() {
+    this.turn++;
+    this.sendData(0, 'turn', this.turn);
+    this.sendData(1, 'turn', this.turn);
   },
 
   action: function(player, action) {
-    switch (action.type) {
-      case 'place':
-        return this.placeCard(player, action.hand, action.slot);
-      case 'attack' : 
-        return this.attack(player, action.slot, action.target);
+    console.log(action.hand);
+    if (action.type == "place") {
+      this.placeCard(player, action.hand);
+      this.sendState();
     }
-    return false;
+    if (action.type == "attack") {
+      this.attack(player, action.card, action.target, function() {
+      });
+    }
+    if (action.type == "ability") {
+      this.ability(player, action.card, action.target, function() {
+      });
+    }
+    if (action.type == "endturn") {
+      this.nextTurn();
+    }
   }
 }
 
