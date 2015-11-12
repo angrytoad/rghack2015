@@ -17,12 +17,21 @@ class LoginController{
 
     private $login;
     private $request;
+    private $post;
 
     public function __construct()
     {
         $this->request = new requestObject();
         $this->login = new LoginModel();
-        $this->authenticateUser($this->request->getPOST());
+        $this->post = $this->request->getPOST();
+        switch($this->post->action){
+            case 'authenticateUser':
+                $this->authenticateUser($this->post);
+            break;
+            case 'verifyUser':
+                $this->verifyUser($this->post);
+        }
+
     }
 
     public function authenticateUser($posted){
@@ -38,6 +47,9 @@ class LoginController{
         }
     }
 
+    public function verifyUser($posted){
+
+    }
 
 }
 
