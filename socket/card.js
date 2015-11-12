@@ -11,6 +11,8 @@ var Card = function(player, id, champname) {
   this.damage = champ.damage;
   this.targetType = champ.targetType;
   this.ability = champ.ability;
+  this.currentCooldown = champ.cooldown;
+  this.abilityCooldown = champ.cooldown;
   this.stunned = 0;
 }
 

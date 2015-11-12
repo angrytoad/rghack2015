@@ -3,7 +3,7 @@ var Card = require('./card');
 var game = {
   
   // constants
-  deckSize: 10,
+  deckSize: 15,
 
   players: null,
   turn: 0,
@@ -55,10 +55,13 @@ var game = {
   },
 
   drawCard: function(player) {
-    var id = this.players[player].deck.length;
+    var len = this.players[player].deck.length;
+    if (len == 0) {
+      return ;
+    }
     var champion = this.players[player].deck.pop();
     console.log('Player ' + player + ' drawn ' + champion);
-    var cardinstance = new Card(player, id, champion);
+    var cardinstance = new Card(player, len, champion);
     this.players[player].hand[cardinstance.id] = cardinstance;
     var o = {
       type: "draw",
@@ -104,6 +107,7 @@ var game = {
     console.log(a);
     console.log(e);
     console.log(this.players[player].field[card].ability);
+    this.players[player].field[card].currentCooldown = this.players[player].field[card].abilityCooldown;
     this.players[player].field[card].ability(a, e, target);
     this.checkDeath();
     this.sendState();
