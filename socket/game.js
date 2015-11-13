@@ -4,12 +4,14 @@ var game = {
   
   // constants
   deckSize: 15,
+  nexusHealth: 20,
 
   players: null,
   turn: 0,
   sockets: [null, null],
   turnEvents: {},
   pingTimer: null,
+  nexus: null,
 
   initGame: function(deck, name, id) {
     if (this.players == null || this.players[1] != null) {
@@ -23,9 +25,10 @@ var game = {
         'id': id
       };
       this.sockets = [null, null];
-      this.pingTimer = setInterval(function(){
-
-      }, 1000));
+      if (this.pingTimer == null) {
+        this.pingTimer = setInterval(this.ping, 5000);
+      }
+      this.nexus = [this.nexusHealth, this.nexusHealth];
       return '0';
     }
     this.players[1] = {
@@ -92,9 +95,11 @@ var game = {
     this.sendData(0, 'player', this.players[0].field);
     this.sendData(0, 'enemy', this.players[1].field);
     this.sendData(0, 'hand', this.players[0].hand);
+    this.sendData(0, 'nexus', this.nexus);
     this.sendData(1, 'enemy', this.players[0].field);
     this.sendData(1, 'player', this.players[1].field);
     this.sendData(1, 'hand', this.players[1].hand);
+    this.sendData(1, 'nexus', this.nexus);
   },
 
   placeCard: function(player, hand) {
@@ -150,7 +155,7 @@ var game = {
     for (var j = 0; j < 2; j++) {
       var keys = Object.keys(this.players[j].field);
       for (var i in keys) {
-        if (this.players[j].field[keys[i]].health < 0) {
+        if (this.players[j].field[keys[i]].health <= 0) {
           this.players[j].field[keys[i]].dead = true;
           this.sendData(0, 'death', this.players[j].field[keys[i]].championid);
           this.sendData(1, 'death', this.players[j].field[keys[i]].championid);
@@ -165,11 +170,26 @@ var game = {
   },
 
   nextTurn: function() {
+    var x = Object.keys(this.players[0].field).length;
+    var y = Object.keys(this.players[1].field).length;
+    if (x < y) {
+      this.nexus[0] -= y - x;
+    } else {
+      this.nexus[0] -= x - y;
+    }
     this.turn++;
     this.runEvents();
+    this.reduceCooldowns();
+    this.sendState();
+    if (this.nexus[0] <= 0 || this.nexus[1] <= 0) {
+      this.sendData(0, this.nexus[0] < 0 ? 'defeat' : 'victory', this.turn);
+      this.sendData(1, this.nexus[1] < 0 ? 'defeat' : 'victory', this.turn);
+      return ;
+    }
+
     this.sendData(0, 'turn', this.turn);
     this.sendData(1, 'turn', this.turn);
-    this.sendState();
+    this.drawCard(this.turn % 2);
   },
 
   action: function(player, action) {
@@ -213,14 +233,27 @@ var game = {
       }
     }
     return false;
-  }
+  },
 
-  pinger: function() {
-    if (sockets && sockets[0]) {
-      sockets[0].write('\n');
+  ping: function() {
+    if (this.sockets && this.sockets[0]) {
+      this.sockets[0].write('\n');
     }
-    if (sockets && sockets[1]) {
-      sockets[1].write('\n');
+    if (this.sockets && this.sockets[1]) {
+      this.sockets[1].write('\n');
+    }
+  },
+
+  reduceCooldowns: function() {
+    for (var i in this.players[0].field) {
+      if (this.players[0].field[i].currentCooldown > 0) {
+        this.players[0].field[i].currentCooldown--;
+      }
+    }
+    for (var i in this.players[1].field) {
+      if (this.players[1].field[i].currentCooldown > 0) {
+        this.players[1].field[i].currentCooldown--;
+      }
     }
   }
 }

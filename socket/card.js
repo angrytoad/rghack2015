@@ -28,6 +28,9 @@ Card.prototype.dealDamage = function(amount) {
   }
   if (require('./game').hasChampion(this.player, 'Maokai')) {
     amount -= 3;
+    if (amount < 0) {
+      amount = 0;
+    }
   }
   this.health -= amount;
   if (this.hasZilean && this.health <= 0) {
