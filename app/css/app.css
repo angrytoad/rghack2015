@@ -31,12 +31,47 @@ body {
     position: absolute;
 }
 
-.champion-card-image {
+.card-champion-image {
     z-index: -2;
     position: absolute;
     width: 280px;
     left: 8px;
 }
+
+.card-champion-name {
+  z-index: 3;
+  position: absolute;
+  margin-left: 20px;
+}
+
+.card-champion-ability-info {
+  z-index: 3;
+  position: absolute;
+  margin-left: 20px;
+}
+
+.card-champion-stats {
+    z-index: 3;
+    position: absolute;
+    margin-left: 80px;
+    top: 400px;
+    font-size: 20pt;
+    width: 140px;
+    color: white;
+}
+
+.card-button-row {
+    z-index: 1;
+    position: absolute;
+    top: 445px;
+    width: 300px;
+    padding: 10px 0px;
+    background-color: black;
+    text-align: center;
+}
+
+
+
 
 .card div {
 	

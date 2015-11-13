@@ -167,6 +167,34 @@ angular.module("MatchApp", [])
   		$scope.submitAction({type: "endturn"});
   	}
 
+  	$scope.performAttack = function(card, type){
+  		$scope.game.pendingAttack = true;
+
+  		$log.info("performAttack: Champion: " + card.champion + ", type: " + type);
+
+  		//listen for who we are going to attack
+  		$scope.$on("attack", function(e, enemyCard){
+  			// if(type == 'basic'){
+  			// 	enemyCard.health - 1;
+  			// }
+  			// if(type == 'special')
+  			// 	enemyCard.health - card.damage;
+
+  			//log resulting status
+  			$log.info("performAttack: Enemy Champion: " + enemyCard.champion + ", health: " + enemyCard.health);
+
+  			$scope.submitAction({type: "attack", card: card.id, target: enemyCard.id});
+  		})
+
+  	}
+
+  	$scope.targetEnemy = function(card){
+  		if($scope.game.pendingAttack){
+  			$log.info("targetEnemy: Enemy Champion " + card.champion);
+  			$scope.$broadcast("attack", card);
+  		}
+  	}
+
   	$scope.placeCard = function(card){
   		// //remove from draw
   		// $scope.game.player0.draw.splice($scope.game.player0.draw.indexOf(card), 1);
