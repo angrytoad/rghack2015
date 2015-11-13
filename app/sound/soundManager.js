@@ -13,6 +13,8 @@ function backgroundMusic(){
 function soundController(soundType,id){
     if(!mute) {
         if(soundType == 'attack') {
+            console.log("playing attack card sound");
+            console.log(id);
             var sound = new buzz.sound('/rghack2015/app/sound/sounds/attack/' + id + '.ogg',{volume:50});
             sound.play();
         }
@@ -28,6 +30,10 @@ function soundController(soundType,id){
         }
         if(soundType == 'yourTurn'){
             var sound = new buzz.sound('/rghack2015/app/sound/sounds/misc/yourTurn.mp3',{volume:30});
+            sound.play();
+        }
+        if(soundType == 'match'){
+            var sound = new buzz.sound('/rghack2015/app/sound/sounds/misc/matchMusic.mp3',{volume:15});
             sound.play();
         }
     }

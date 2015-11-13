@@ -159,7 +159,7 @@ angular.module("MatchApp", [])
   		$scope.game.pendingAttack = true;
 
   		$log.info("performAttack: Champion: " + card.champion + ", type: " + type);
-
+		soundController('attack',card.championid);
   		//listen for who we are going to attack
   		$scope.$on("attack", function(e, enemyCard){
   			// if(type == 'basic'){
