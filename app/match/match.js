@@ -14,17 +14,20 @@ angular.module("MatchApp", [])
 		player0: {
 			profileId: 511,
 			name: "Sal", 
-			currentHealth: 100
+			currentHealth: 100,
+			draw: []
 		},
 		player1: {
 			profileId: 901,
 			name: "Phreak",
-			currentHealth: 100
+			currentHealth: 100,
+			draw: []
 		}
 	};
 })
-.controller("MatchCtrl", ['$scope', '$interval', 'User', 'Match', function($scope, $interval, User, Match){
+.controller("MatchCtrl", ['$scope', '$interval', '$log', 'User', 'Match', function($scope, $interval, $log, User, Match){
 	$scope.game = Match.game;
+	console.log($scope.game);
 
 	$interval(function(){
 		$scope.game.player1.currentHealth = ($scope.game.player1.currentHealth > 0) ? $scope.game.player1.currentHealth-1 : 120;
@@ -40,17 +43,52 @@ angular.module("MatchApp", [])
 	// 	$scope.dims.height = $(document).height();
 	// 	console.log($scope.dims);
 	// })
-
+	
+	//WATCH HEIGHT
 	$scope.$watch(function(){
 		return window.innerHeight;
 	}, function(val){
 		$scope.dims.height = val;
 	})
 
+	//WATCH WIDTH
+	$scope.$watch(function(){
+		return window.innerWidth;
+	}, function(){
+		$scope.dims.width = $('#board').height();
+		$log.info("dimensions");
+		$log.debug($scope.dims);
+
+	})
+
 	//socket stuff
-	var sourceUrl = 'http://52.32.183.170:3000/game?player=' + User.playerNum;
-	var player0 = new EventSource(sourceUrl);
- 	player0.onmessage = function(event) {
-    	console.log(event.data);
+	var sourceUrl = 'http://52.32.183.170:3000/game?player=' + User.playerNum; 
+	console.log(sourceUrl);
+	var player = new EventSource(sourceUrl);
+ 	$scope.game.player0.draw = [];
+
+ 	player.onmessage = function(event) {
+    	//console.log(event.data);
+    	var e = {};
+    	$.extend(true, e, JSON.parse(event.data));
+
+    	console.log(e);
+    	//WHEN DRAWING
+    	if(e.type == "draw"){
+
+			try { $scope.game.player0.draw.push(e.data); 
+			} catch(e) {
+				$scope.game.player0.draw = [];
+				$scope.game.player0.draw.push(e.data);
+
+				$log.error("Try catch player0");
+				$log.debug($scope.game.player0);
+			}
+
+			$log.info("Player0 Object");
+    		$log.debug($scope.game.player0);
+
+			$scope.$digest();
+    	}
   	};
 }])

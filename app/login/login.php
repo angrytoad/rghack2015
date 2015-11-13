@@ -23,6 +23,7 @@ class LoginController{
     {
         $this->request = new requestObject();
         $this->login = new LoginModel();
+        $this->summoner = new SummonerModel();
         $this->post = $this->request->getPOST();
         if(isset($this->post->action)) {
             switch ($this->post->action) {
@@ -57,8 +58,10 @@ class LoginController{
     {
         $uid = $posted->runepageString[0];
         $runepage = $posted->runepageString[1];
+        $summonerName = $posted->id;
         if($this->login->checkForRunepage($uid,$runepage)){
-            return responder::sendResponse(200);
+            $this->summoner = $this->summoner->loadSummonerByName($summonerName);
+            return responder::sendResponse(200, ['summonerID' => $uid,'profileIconID' => $this->summoner->getProfileIcon(),'champMasteries' => $this->summoner->getChampMasteries()]);
         }else{
             return responder::sendResponse(400);
         }

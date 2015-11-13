@@ -42,7 +42,7 @@ angular.module("LoginApp", [])
 	}
 })
 .factory("Login", function($q, $timeout, $http, LoginMock){
-	return LoginMock;
+	//return LoginMock;
 	return {
 		authenticateUser: function(name){
 			var p = $q.defer();
@@ -64,7 +64,7 @@ angular.module("LoginApp", [])
 
 			$http.post("login/login.php", {action: "verifyAccount", id: id, runepageString: key})
 				.success(function(result){
-					p.resolve(true);
+					p.resolve(result);
 				})
 				.error(function(){
 					p.reject(false);
@@ -110,6 +110,8 @@ angular.module("LoginApp", [])
 			//they are logged in, send them to the home page
 			$log.debug("Log in");
 			User.user = result;
+			User.user.name = $scope.form.name;
+			localStorage.setItem("user", JSON.stringify(User.user));
 			$location.url("/lobby");
 		})
 		//fails

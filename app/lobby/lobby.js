@@ -10,10 +10,10 @@ angular.module("LobbyApp", [])
     }])
     .factory("Lobby", function($q, $timeout, $http, LobbyMock) {
         return {
-            findMatch: function() {
+            findMatch: function(User) {
                 var p = $q.defer();
-
-                $http.get("game/start.php", {})
+                console.log(User)
+                $http.post("game/start.php", {name: User.name, id: User.profileIconID})
                     .success(function(response) {
                         p.resolve(response);
                     })
@@ -50,7 +50,8 @@ angular.module("LobbyApp", [])
             }
         }
     })
-    .controller("LobbyCtrl", ["$scope", "$location", "Lobby", "Match", "User", function($scope, $location, Lobby, Match, User) {
+    .controller("LobbyCtrl", ["$scope", "$location", "$log", "Lobby", "Match", "User", function($scope, $location, $log, Lobby, Match, User) {
+    	console.log(User);
 
         $scope.form = {
             isSearching: false
@@ -60,7 +61,7 @@ angular.module("LobbyApp", [])
         $scope.play = function() {
             $scope.form.isSearching = true;
 
-            Lobby.findMatch().then(function(playerNum) {
+            Lobby.findMatch(User.user).then(function(playerNum) {
                 //load match object
                 //Match.game = game;
 

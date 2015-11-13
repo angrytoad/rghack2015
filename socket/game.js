@@ -9,21 +9,22 @@ var game = {
   turn: 0,
   sockets: [null, null],
 
-  initGame: function(deck0, deck1) {
-    this.players = [];
-    this.players[0] = {
-      'field' : {},
-      'hand': {},
-      'deck': deck0,
-    };
+  initGame: function(deck) {
+    if (this.players == null) {
+      this.players = [];
+      this.players[0] = {
+        'field' : {},
+        'hand': {},
+        'deck': deck,
+      };
+      return '0';
+    }
     this.players[1] = {
       'field' : {},
       'hand': {},
-      'deck': deck1,
+      'deck': deck,
     };
-    this.turn = 0;
-    console.log('game initialized');
-    console.log('this.players');
+    return '1';
   },
 
   startGame: function() {
@@ -37,6 +38,8 @@ var game = {
     console.log(this.players[0].deck);
     console.log(this.players[1].deck);
     this.sendState();
+    this.turn = -1;
+    this.nextTurn();
     //this.endGame();
   },
 
@@ -86,7 +89,7 @@ var game = {
     this.sendState();
   },
 
-  attack: function(player, card, target, cb) {
+  attack: function(player, card, target) {
     var enemy = 1 - player;
     var damage = this.players[player].field[card].damage;
     this.players[enemy].field[target].dealDamage(damage);
@@ -94,7 +97,7 @@ var game = {
     this.sendState();
   },
 
-  ability: function(player, card, target, cb) {
+  ability: function(player, card, target) {
     var enemy = 1 - player;
     var a = this.players[player].field;
     var e = this.players[enemy].field;

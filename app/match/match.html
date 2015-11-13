@@ -3,7 +3,7 @@
 		<div class="col-md-1" style="background-color: grey">
 			<!--show match history-->
 		</div>
-		<div class="col-md-11">
+		<div class="col-md-11" id="board">
 			<!--2 rows for each player-->
 
 			<!--player 1-->
@@ -11,12 +11,17 @@
 				<!--info row-->
 				<div class="row">
 					<div class="col-sm-4 col-md-offset-4 thumbnail" >
-						<div class="media" style="height: 60px">
+						<div class="media" style="height: 70px">
 							<div class="media-left">
 								<img class="media-object" ng-src="http://ddragon.leagueoflegends.com/cdn/5.15.1/img/profileicon/{{game.player0.profileId}}.png" height="60px" style="border-left: solid 9px #2747e8"/>
 							</div>
 							<div class="media-body">
-								<h4>{{game.player0.name}}</h4>
+								<h4>{{game.player0.name}}
+									<span ng-repeat="card in game.player0.draw">
+										<img ng-src="http://ddragon.leagueoflegends.com/cdn/5.22.3/img/champion/{{card.champion}}.png" height="33px"/>
+									</span>
+								</h4>
+								
 								<!--health bar-->
 								<uib-progressbar class="progress-striped active" max="100" value="game.player0.currentHealth" type="danger"><i>{{game.player0.currentHealth}} / 100</i></uib-progressbar>
 							</div>
@@ -26,6 +31,23 @@
 
 				<!--card field-->
 				<div class="row" ng-attr-style="height: {{(dims.height/2)*.80}}px">
+					<div class="inline">
+						<div>
+							{{game.player0.draw[0]}}
+						</div>
+						<div>
+							{{game.player0.draw[1]}}
+						</div>
+						<div>
+							{{game.player0.draw[2]}}
+						</div>
+						<div>
+							{{game.player0.draw[3]}}
+						</div>
+						<div>
+							{{game.player0.draw[4]}}
+						</div>
+					</div>
 				</div>
 
 
@@ -35,12 +57,14 @@
 			<div class="row" ng-attr-style="height: {{dims.height/2}}px; margin: 0px 0px 0px 0px">
 				<!--card field-->
 				<div class="row" ng-attr-style="height: {{(dims.height/2)*.80}}px">
+
+					{{game.player1.draw}}
 				</div>
 
 				<!--info row-->
 				<div class="row">
 					<div class="col-sm-4 col-md-offset-4 thumbnail" >
-						<div class="media" style="height: 60px">
+						<div class="media" style="height: 70px">
 							<div class="media-left">
 								<img class="media-object" ng-src="http://ddragon.leagueoflegends.com/cdn/5.15.1/img/profileicon/{{game.player1.profileId}}.png" height="60px" style="border-left: solid 9px #2747e8"/>
 							</div>

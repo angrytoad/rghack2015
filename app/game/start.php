@@ -6,8 +6,9 @@
 	ini_set( "display_errors", 1 );
 	
 	$address = 'http://52.32.183.170:3001/init';
-	
-	$data = array('deck' => $deck);
+	$input = json_decode(file_get_contents("php://input"));
+
+	$data = array('deck' => $deck, "name" => $input->name, "id" => $input->id);
 
 	$options = array(
     	'http' => array(

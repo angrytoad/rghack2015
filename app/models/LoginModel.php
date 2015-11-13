@@ -50,18 +50,13 @@ class LoginModel extends RiotApi
                             'uuid' => $userUUID,
                             'summonerID' => htmlspecialchars($uid)
                         );
-                        if ($this->db->insert('Users', $data)) {
-                            if ($this->db->where('user_id',$uid)->delete('RunePageVerification')) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        } else {
-                            return false;
-                        }
+                        $this->db->insert('Users', $data);
+                        return true;
                     }else{
                         return true;
                     }
+                }else{
+                    return false;
                 }
             }else{
                 return false;
