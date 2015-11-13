@@ -35,6 +35,7 @@ body {
   width:1000px;
   margin-left:calc(50% - 500px);
   top: calc(50% - 325px);
+  z-index: 999;
 }
 
 .card {
