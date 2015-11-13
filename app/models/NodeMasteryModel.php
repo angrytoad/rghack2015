@@ -4,7 +4,7 @@
 	{
 	
 	    public function loadMasteryById($ID){
-			return json_encode($this->getChampMasteries($ID));
+			return json_encode($this->getChampionMasteries($ID));
 			
 	    }
 	
