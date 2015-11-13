@@ -134,6 +134,10 @@ angular.module("MatchApp", [])
     		$scope.game.gameResult = "defeat";
     	}
 
+    	if(e.type == "attacked"){
+
+    	}
+
     	if(e.type == "nexus"){
     		$scope.game.player0.currentHealth = e.data[User.playerNum];
     		$scope.game.player1.currentHealth = e.data[1 - User.playerNum];
@@ -141,7 +145,8 @@ angular.module("MatchApp", [])
 
     	//ENEMY HAND
     	if(e.type == "enemyPlace"){
-    		
+    		$log.info("enemyPlace");
+    		$log.debug(e.data);	
     	}
 
     	$scope.$digest();
@@ -199,20 +204,34 @@ angular.module("MatchApp", [])
   		$log.info("performAttack: Champion: " + card.champion + ", type: " + type);
   	}
 
+  	$scope.attackAnimation = function(card, target){
+  		$('#'+card).addClass('animated').addClass('flip');
+
+  		$('#'+card).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$('#'+card).removeClass('animated flip');
+			$('#'+target).addClass('animated').addClass('shake');
+			$('#'+target).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+				$('#'+target).removeClass('animated shake');
+			});
+		});
+  	}
+
   	$scope.targetEnemy = function(card){
   		if($scope.game.pendingAttack){
   			$log.info("targetEnemy: Enemy Champion " + card.champion);
   			$scope.$broadcast("attack", {type: $scope.game.attackType, card: selectedCard, enemyCard: card});
   		}
-		$('#'+selectedCard.id).addClass('animated').addClass('flip');
 
-		$('#'+selectedCard.id).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-			$('#'+selectedCard.id).removeClass('animated flip');
-			$('#'+card.id).addClass('animated').addClass('shake');
-			$('#'+card.id).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-				$('#'+card.id).removeClass('animated shake');
-			});
-		});
+  		$scope.attackAnimation(selectedCard.id, card);
+		// $('#'+selectedCard.id).addClass('animated').addClass('flip');
+
+		// $('#'+selectedCard.id).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+		// 	$('#'+selectedCard.id).removeClass('animated flip');
+		// 	$('#'+card.id).addClass('animated').addClass('shake');
+		// 	$('#'+card.id).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+		// 		$('#'+card.id).removeClass('animated shake');
+		// 	});
+		// });
 
   	}
 
