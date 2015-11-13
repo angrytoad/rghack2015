@@ -208,9 +208,11 @@ var game = {
     }
     if (action.type == "attack") {
       this.attack(player, action.card, action.target);
+      this.sendData(1 - player, 'attacked', action);
     }
     if (action.type == "ability") {
       this.ability(player, action.card, action.target);
+      this.sendData(1 - player, 'abilitied', action);
     }
     if (action.type == "endturn") {
       this.nextTurn();
