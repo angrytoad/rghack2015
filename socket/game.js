@@ -9,6 +9,7 @@ var game = {
   turn: 0,
   sockets: [null, null],
   turnEvents: {},
+  pingTimer: null,
 
   initGame: function(deck, name, id) {
     if (this.players == null || this.players[1] != null) {
@@ -22,6 +23,9 @@ var game = {
         'id': id
       };
       this.sockets = [null, null];
+      this.pingTimer = setInterval(function(){
+
+      }, 1000));
       return '0';
     }
     this.players[1] = {
@@ -148,6 +152,8 @@ var game = {
       for (var i in keys) {
         if (this.players[j].field[keys[i]].health < 0) {
           this.players[j].field[keys[i]].dead = true;
+          this.sendData(0, 'death', this.players[j].field[keys[i]].championid);
+          this.sendData(1, 'death', this.players[j].field[keys[i]].championid);
           delete this.players[j].field[keys[i]];
         }
       }
@@ -205,8 +211,17 @@ var game = {
       if (this.players[player].field[i].champion == champion) {
         return true;
       }
-    }    
+    }
     return false;
+  }
+
+  pinger: function() {
+    if (sockets && sockets[0]) {
+      sockets[0].write('\n');
+    }
+    if (sockets && sockets[1]) {
+      sockets[1].write('\n');
+    }
   }
 }
 
