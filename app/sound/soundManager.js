@@ -30,6 +30,10 @@ function soundController(soundType,id){
             var sound = new buzz.sound('/rghack2015/app/sound/sounds/misc/yourTurn.mp3',{volume:30});
             sound.play();
         }
+        if(soundType == 'match'){
+            var sound = new buzz.sound('/rghack2015/app/sound/sounds/misc/matchMusic.mp3',{volume:15});
+            sound.play();
+        }
     }
 }
 
