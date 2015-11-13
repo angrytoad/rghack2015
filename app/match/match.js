@@ -110,38 +110,24 @@ angular.module("MatchApp", [])
     		$scope.game.whosTurn = (e.data % 2 == User.playerNum) ? ($scope.game.cardPlaced = false, User.playerNum) : 1 - User.playerNum;
     	}
 
-    	if(e.type == "hand"){
+    	else if(e.type == "hand"){
     		$scope.game.player0.draw = e.data;
     	}
 
-    	if(e.type == "player"){
+    	else if(e.type == "player"){
     		$scope.game.player0.onField = e.data;
     	}
 
-    	if(e.type == "enemy"){
+    	else if(e.type == "enemy"){
     		$scope.game.player1.onField = e.data;
     	}
 
-    	//WHEN DRAWING
-   //  	if(e.type == "draw"){
-
-			// try { $scope.game.player0.draw.push(e.data); 
-			// } catch(e) {
-			// 	$scope.game.player0.draw = [];
-			// 	$scope.game.player0.draw.push(e.data);
-
-			// 	$log.error("Try catch player0");
-			// 	$log.debug($scope.game.player0);
-			// }
-
-			// $log.info("Player0 Object");
-   //  		$log.debug($scope.game.player0);
-
-			// $scope.$digest();
-   //  	}
+    	else if(e.type == "death"){
+    		//sound for death, e.data will be champion ID
+    	}
 
     	//ENEMY HAND
-    	if(e.type == "enemyPlace"){
+    	else if(e.type == "enemyPlace"){
 
     	}
 
