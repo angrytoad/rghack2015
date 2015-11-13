@@ -259,7 +259,7 @@ angular.module("MatchApp", [])
 						$('#'+target+"_dmg").removeClass('animated fadeOutUp');
 						$('#'+target+'_dmg').text('');
 					});
-				},800);
+				},300);
 			});
 		});
   	}

@@ -14,7 +14,7 @@
 							</div>
 							<div class="media-body">
 								<h4>{{game.player0.name}}
-									<span ng-repeat="card in game.player0.draw" ng-click="placeCard(card)">
+									<span ng-repeat="card in game.player0.draw" ng-click="placeCard(card)" uib-tooltip="Basic Dmg: {{card.damage}}, Health: {{card.health}}, Ability: {{card.description}}" tooltip-placement="bottom">
 										<img ng-src="http://ddragon.leagueoflegends.com/cdn/5.22.3/img/champion/{{card.champion}}.png" height="33px"/>
 									</span>
 								</h4>
@@ -41,7 +41,7 @@
 							<div class="card-champion-name">
 								<h3 style="color: white">{{card.champion}}</h3>
 							</div>
-							<img src="images/card_template-{{card.level}}.png" class="card"/>
+							<img ng-src="images/card_template-{{card.level}}.png" class="card"/>
 							<img ng-src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{card.champion}}_0.jpg" class="card-champion-image"/>
 							<!--ability info-->
 							<div class="card-champion-ability-info">
@@ -72,7 +72,7 @@
 						<div class="card-champion-name">
 							<h3 style="color: white">{{card.champion}}</h3>
 						</div>
-						<img src="images/card_template-{{card.level}}.png" class="card"/>
+						<img ng-src="images/card_template-{{card.level}}.png" class="card"/>
 						<img ng-src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{card.champion}}_0.jpg" class="card-champion-image"/>
 						<!--ability info-->
 						<div class="card-champion-ability-info">
