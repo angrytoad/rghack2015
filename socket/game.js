@@ -9,7 +9,7 @@ var game = {
   turn: 0,
   sockets: [null, null],
 
-  initGame: function(deck, name, icon) {
+  initGame: function(deck, name, id) {
     if (this.players == null || this.players[1] != null) {
       this.players = [];
       this.players[0] = {
@@ -17,7 +17,7 @@ var game = {
         'hand': {},
         'deck': deck,
         'name': name,
-        'id': icon
+        'id': id
       };
       this.sockets = [null, null];
       return '0';
@@ -27,7 +27,7 @@ var game = {
       'hand': {},
       'deck': deck,
       'name': name,
-      'id': icon
+      'id': id
     };
     return '1';
   },

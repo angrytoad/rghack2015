@@ -17,8 +17,8 @@ router.post('/*', function(req, res, next) {
 router.post('/init', function(req, res, next) {
   var deck = JSON.parse(req.body.deck);
   var name = JSON.parse(req.body.name);
-  var icon = JSON.parse(req.body.icon);
-  res.send(game.initGame(deck, name, icon));
+  var id = JSON.parse(req.body.id);
+  res.send(game.initGame(deck, name, id));
 });
 
 router.get('/clear', function(req, res, next) {
