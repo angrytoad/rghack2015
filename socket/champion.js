@@ -100,7 +100,7 @@ champions['Kindred'] = new Champion(203, 'Kindred', 14, 5, 'passive', 0,
   // Gain 2 attack damage every kill
   // implemented
 });
-champions['MasterYi'] = new Champion(11, 'MasterYi', 10, 9, 'passive', 0,
+champions['MasterYi'] = new Champion(11, 'MasterYi', 6, 9, 'passive', 0,
   'Passive: Whenever Master Yi attacks, there is 50% chance to attack twice.'
   , function(a, e, t, s) {
   // Roll a dice when you attack this turn, you have a 50% chance to attack that champion again.
@@ -175,7 +175,7 @@ champions['Riven'] = new Champion(92, 'Riven', 22, 5, 'none', 4,
   });
 });
 champions['Zilean'] = new Champion(26, 'Zilean', 12, 4, 'passive', 0,
-  'Passive: Allied champions has 25% to revive with full health after being dealt lethal damage whenever Zilean is in play.'
+  'Passive: Allied champions has 25% to revive with half health after being dealt lethal damage whenever Zilean is in play.'
   , function(a, e, t, s) {
   // Can cast on ally champion if they die this turn they are brought back to life with full hp
 });

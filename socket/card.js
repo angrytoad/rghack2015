@@ -44,7 +44,7 @@ Card.prototype.dealDamage = function(amount) {
   if (game.hasChampion(this.player, 'Zilean') && this.health <= 0 && Math.random() < 0.25) {
     game.sendData(0, 'zilean', this.id);
     game.sendData(1, 'zilean', this.id);
-    this.health = this.maxHealth;
+    this.health = Math.floor(this.maxHealth / 2);
   }
 }
 
