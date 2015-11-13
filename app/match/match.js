@@ -97,6 +97,7 @@ angular.module("MatchApp", [])
 	var player = new EventSource(sourceUrl);
  	$scope.game.player0.draw = [];
  	$scope.game.player0.onField = [];
+ 	soundController('match');
 
  	player.onmessage = function(event) {
     	//console.log(event.data);
@@ -110,38 +111,25 @@ angular.module("MatchApp", [])
     		$scope.game.whosTurn = (e.data % 2 == User.playerNum) ? ($scope.game.cardPlaced = false, User.playerNum) : 1 - User.playerNum;
     	}
 
-    	if(e.type == "hand"){
+    	else if(e.type == "hand"){
     		$scope.game.player0.draw = e.data;
     	}
 
-    	if(e.type == "player"){
+    	else if(e.type == "player"){
     		$scope.game.player0.onField = e.data;
     	}
 
-    	if(e.type == "enemy"){
+    	else if(e.type == "enemy"){
     		$scope.game.player1.onField = e.data;
     	}
 
-    	//WHEN DRAWING
-   //  	if(e.type == "draw"){
-
-			// try { $scope.game.player0.draw.push(e.data); 
-			// } catch(e) {
-			// 	$scope.game.player0.draw = [];
-			// 	$scope.game.player0.draw.push(e.data);
-
-			// 	$log.error("Try catch player0");
-			// 	$log.debug($scope.game.player0);
-			// }
-
-			// $log.info("Player0 Object");
-   //  		$log.debug($scope.game.player0);
-
-			// $scope.$digest();
-   //  	}
+    	else if(e.type == "death"){
+    		//sound for death, e.data will be champion ID
+    		soundController('death', '' + e.data);
+    	}
 
     	//ENEMY HAND
-    	if(e.type == "enemyPlace"){
+    	else if(e.type == "enemyPlace"){
 
     	}
 
@@ -165,35 +153,45 @@ angular.module("MatchApp", [])
   	$scope.endTurn = function(){
   		$scope.submitAction({type: "endturn"}).then(function(){
 			soundController('yourTurn');
+			$scope.game.pendingAttack = false;
 		});
 
   	}
 
+  	var selectedCard;
+  	var enemyCard;
+  	$scope.$on("attack", function(e, action){
+  	 	var type = action.type;
+  	 	var enemyCard = action.enemyCard;
+  	 	var card = action.card;
+
+		//log resulting status
+		$log.info("performAttack: Enemy Champion: " + enemyCard.champion + ", health: " + enemyCard.health);
+
+		if(type == "basic"){
+			soundController('attack',enemyCard.championid);
+			$scope.submitAction({type: "attack", card: card.id, target: enemyCard.id});
+		}
+		else if(type == "special"){
+			soundController("special", enemyCard.championid);
+			$scope.submitAction({type: "ability", card: card.id, target: enemyCard.id});
+		}
+
+		//listener = null;
+	});
+
   	$scope.performAttack = function(card, type){
   		$scope.game.pendingAttack = true;
+  		$scope.game.attackType = type;
+  		selectedCard = card;
 
   		$log.info("performAttack: Champion: " + card.champion + ", type: " + type);
-		soundController('attack',card.championid);
-  		//listen for who we are going to attack
-  		$scope.$on("attack", function(e, enemyCard){
-  			// if(type == 'basic'){
-  			// 	enemyCard.health - 1;
-  			// }
-  			// if(type == 'special')
-  			// 	enemyCard.health - card.damage;
-
-  			//log resulting status
-  			$log.info("performAttack: Enemy Champion: " + enemyCard.champion + ", health: " + enemyCard.health);
-
-  			$scope.submitAction({type: "attack", card: card.id, target: enemyCard.id});
-  		})
-
   	}
 
   	$scope.targetEnemy = function(card){
   		if($scope.game.pendingAttack){
   			$log.info("targetEnemy: Enemy Champion " + card.champion);
-  			$scope.$broadcast("attack", card);
+  			$scope.$broadcast("attack", {type: $scope.game.attackType, card: selectedCard, enemyCard: card});
   		}
   	}
 
