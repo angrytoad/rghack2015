@@ -227,7 +227,8 @@ var game = {
   },
 
   runEvents: function() {
-    var events = this.turnEvents[this.turn];
+    if (this.turnEvents['turn' + this.turn] == un)
+    var events = this.turnEvents['turn' + this.turn];
     for (var i in events) {
       if (events[i].obj.dead) {
         continue;
