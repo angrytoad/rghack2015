@@ -7,6 +7,7 @@ var Card = function(player, id, champname) {
   this.champion = champname;
   this.championid = champ.id;
   this.player = player;
+  this.level = 0;
   this.container = 'hand';
   this.health = champ.health;
   this.maxHealth = champ.health;
@@ -32,7 +33,7 @@ Card.prototype.dealDamage = function(amount) {
       amount = 0;
     }
   }
-  if (this.champion == "Alistar") {
+  if (this.champion == "Alistar" && this.damage == 5) {
     amount = Math.floor(amount / 2);
   }
   if (amount > 0) {
