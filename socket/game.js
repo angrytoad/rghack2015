@@ -12,8 +12,12 @@ var game = {
   turnEvents: {},
   pingTimer: null,
   nexus: null,
-
-  initGame: function(deck, name, id) {
+  
+  initGame: function(deck, name, icon, id, masteries) {
+    var m = {};
+    for (var i in masteries) {
+      m[masteries[i].championId] = masteries[i].championLevel;
+    }
     if (this.players == null || this.players[1] != null) {
       this.players = [];
       this.turnEvents = {};
@@ -22,7 +26,9 @@ var game = {
         'hand': {},
         'deck': deck,
         'name': name,
-        'id': id
+        'icon': icon,
+        'id': id,
+        'masteries': m
       };
       this.sockets = [null, null];
       if (this.pingTimer == null) {
@@ -36,7 +42,9 @@ var game = {
       'hand': {},
       'deck': deck,
       'name': name,
-      'id': id
+      'icon': icon,
+      'id': id,
+      'masteries': m
     };
     return '1';
   },
@@ -111,31 +119,34 @@ var game = {
   },
 
   attack: function(player, card, target) {
-    if (this.players[player].field[card].lastAction == this.turn) {
+    var cardobj = this.players[player].field[card];
+    if (cardobj.lastAction == this.turn) {
       return ;
     }
     var enemy = 1 - player;
-    var damage = this.players[player].field[card].damage;
-    this.players[player].field[card].lastAction = this.turn;
+
+    var damage = cardobj.damage;
+    cardobj.lastAction = this.turn;
     var targetobj = this.players[enemy].field[target];
     if (this.hasChampion(enemy, 'Teemo')) {
       if (Math.random() < 0.5) {
-        this.players[player].field[card].dealDamage(4);
+        cardobj.dealDamage(4);
       }
     }
     targetobj.dealDamage(damage);
-    if (card.champion == "MasterYi") {
+    if (cardobj.champion == "MasterYi") {
       targetobj.dealDamage(damage);
     }
     this.checkDeath();
-    if (card.champion == "Kindred" && targetobj.dead) {
+    if (cardobj.champion == "Kindred" && targetobj.dead) {
       card.damage += 2;
     }
     this.sendState();
   },
 
   ability: function(player, card, target) {
-    if (this.players[player].field[card].lastAction == this.turn) {
+    var cardobj = this.players[player].field[card];
+    if (cardobj.lastAction == this.turn) {
       return ;
     }
     var enemy = 1 - player;
@@ -143,10 +154,10 @@ var game = {
     var e = this.players[enemy].field;
     console.log(a);
     console.log(e);
-    console.log(this.players[player].field[card].ability);
-    this.players[player].field[card].lastAction = this.turn;
-    this.players[player].field[card].currentCooldown = this.players[player].field[card].abilityCooldown;
-    this.players[player].field[card].ability(a, e, target);
+    console.log(cardobj.ability);
+    cardobj.lastAction = this.turn;
+    cardobj.currentCooldown = cardobj.abilityCooldown;
+    cardobj.ability(a, e, target, cardobj);
     this.checkDeath();
     this.sendState();
   },

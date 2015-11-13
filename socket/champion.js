@@ -52,7 +52,7 @@ champions['Chogath'] = new Champion(31, 'Chogath', 32, 3, 'single', 3, function(
   for (var i in e) {
     if (e[i].id == t) {
       e[i].dealDamage(8);
-      if (e[i].hp < 0) {
+      if (e[i].health <= 0) {
         s.maxHealth += 5;
         s.health += 5;
       }
@@ -68,8 +68,8 @@ champions['Caitlyn'] = new Champion(51, 'Caitlyn', 8, 7, 'none', 4, function(a, 
   var max = -1;
   var maxkey;
   for (var i in keys) {
-    if (e[keys[i]].hp > max) {
-      max = e[keys[i]].hp;
+    if (e[keys[i]].health > max) {
+      max = e[keys[i]].health;
       maxkey = keys[i];
     }
   }
@@ -91,7 +91,7 @@ champions['Karthus'] = new Champion(30, 'Karthus', 8, 6, 'none', 6, function(a, 
     e[i].dealDamage(3);
   }
 });
-champions['Kindred'] = new Champion(203, 'Kindred', 5, 14, 'passive', 3, function(a, e, t, s) {
+champions['Kindred'] = new Champion(203, 'Kindred', 14, 5, 'passive', 3, function(a, e, t, s) {
   // Gain 2 attack damage every kill
   // implemented
 });
