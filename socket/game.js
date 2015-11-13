@@ -175,7 +175,7 @@ var game = {
     if (x < y) {
       this.nexus[0] -= y - x;
     } else {
-      this.nexus[0] -= x - y;
+      this.nexus[1] -= x - y;
     }
     this.turn++;
     this.runEvents();
@@ -185,8 +185,8 @@ var game = {
     this.drawCard(this.turn % 2);
     this.sendState();
     if (this.nexus[0] <= 0 || this.nexus[1] <= 0) {
-      this.sendData(0, this.nexus[0] < 0 ? 'defeat' : 'victory', this.turn);
-      this.sendData(1, this.nexus[1] < 0 ? 'defeat' : 'victory', this.turn);
+      this.sendData(0, this.nexus[0] <= 0 ? 'defeat' : 'victory', this.turn);
+      this.sendData(1, this.nexus[1] <= 0 ? 'defeat' : 'victory', this.turn);
     }
   },
 
