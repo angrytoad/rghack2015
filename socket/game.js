@@ -181,9 +181,9 @@ var game = {
     this.runEvents();
     this.reduceCooldowns();
     this.sendState();
-    if (x <= 0 || y <= 0) {
-      this.sendData(0, x < 0 ? 'defeat' : 'victory', this.turn);
-      this.sendData(1, y < 0 ? 'defeat' : 'victory', this.turn);
+    if (this.nexus[0] <= 0 || this.nexus[1] <= 0) {
+      this.sendData(0, this.nexus[0] < 0 ? 'defeat' : 'victory', this.turn);
+      this.sendData(1, this.nexus[1] < 0 ? 'defeat' : 'victory', this.turn);
       return ;
     }
 
