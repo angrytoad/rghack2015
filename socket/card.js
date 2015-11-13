@@ -15,6 +15,7 @@ var Card = function(player, id, champname) {
   this.currentCooldown = champ.cooldown;
   this.abilityCooldown = champ.cooldown;
   this.stunned = 0;
+  this.lastAction = -1;
 }
 
 Card.prototype.dealDamage = function(amount) {
