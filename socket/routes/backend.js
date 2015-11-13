@@ -19,7 +19,7 @@ router.post('/init', function(req, res, next) {
   var name = req.body.name;
   var id = parseInt(req.body.id);
   var icon = parseInt(req.body.iconId);
-  var masteries = parseInt(req.body.masteries);
+  var masteries = JSON.parse(req.body.masteries);
   res.send(game.initGame(deck, name, icon, id, masteries));
 });
 
