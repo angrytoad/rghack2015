@@ -37,7 +37,7 @@
 				<!--card field-->
 				<div class="row" ng-attr-style="height: {{(dims.height/2)*.80}}px; margin: 0px 5px">
 					<div class="inline">
-						<span ng-repeat="card in game.player0.onField" ng-attr-id="{{card.id}}" style="position: relative; height: 450px; width: 300px; display: inline-block">
+						<span ng-repeat="card in game.player0.onField" ng-attr-id="{{card.id}}" ng-class="{'slowAnimate infinite swing stunned':card.stunned > 0, '':card.stunned == 0}" style="position: relative; height: 450px; width: 300px; display: inline-block">
 							<div class="card-champion-name">
 								<h3 style="color: white">{{card.champion}}</h3>
 							</div>
@@ -67,7 +67,7 @@
 			<div class="row" ng-attr-style="height: {{dims.height/2}}px; margin: 0px 0px 0px 0px">
 				<!--card field-->
 				<div class="row" ng-attr-style="height: {{(dims.height/2)*.80}}px;  margin: 0px 5px">
-					<span ng-repeat="card in game.player1.onField" ng-attr-id="{{card.id}}" style=" position: relative; height: 450px; width: 300px; overflow: hidden; display: inline-block" ng-click="targetEnemy(card)">
+					<span ng-repeat="card in game.player1.onField" ng-attr-id="{{card.id}}" ng-class="{'slowAnimate infinite swing stunned':card.stunned > 0, '':card.stunned == 0}" style=" position: relative; height: 450px; width: 300px; overflow: hidden; display: inline-block" ng-click="targetEnemy(card)">
 						<div class="card-champion-name">
 							<h3 style="color: white">{{card.champion}}</h3>
 						</div>
