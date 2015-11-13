@@ -4,6 +4,7 @@ var Card = function(player, id, champname) {
   console.log(champname);
   this.id = 'card' + player + 'c' + id;
   var champ = champion[champname];
+  this.champion = champname;
   this.player = player;
   this.container = 'hand';
   this.health = champ.health;
@@ -11,6 +12,8 @@ var Card = function(player, id, champname) {
   this.damage = champ.damage;
   this.targetType = champ.targetType;
   this.ability = champ.ability;
+  this.currentCooldown = champ.cooldown;
+  this.abilityCooldown = champ.cooldown;
   this.stunned = 0;
 }
 
