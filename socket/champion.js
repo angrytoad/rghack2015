@@ -175,7 +175,7 @@ champions['Riven'] = new Champion(92, 'Riven', 22, 5, 'none', 4,
   });
 });
 champions['Zilean'] = new Champion(26, 'Zilean', 12, 4, 'passive', 0,
-  'Passive: Allied champions has 25% to revive with full health after being dealt lethal damage whenever Zilean is in play.'
+  'Passive: Allied champions has 25% to revive with half health after being dealt lethal damage whenever Zilean is in play.'
   , function(a, e, t, s) {
   // Can cast on ally champion if they die this turn they are brought back to life with full hp
 });
