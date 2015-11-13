@@ -231,6 +231,9 @@ var game = {
     if (action.type == "endturn") {
       this.nextTurn();
     }
+    if (action.type == "taunt") {
+      this.sendData(1 - player, 'taunt', null);
+    }
   },
 
   addEvent: function(delay, obj, cb) {
