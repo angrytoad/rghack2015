@@ -69,8 +69,8 @@ angular.module("LobbyApp", [])
                 Match.game = {
                     gameID: 747,
                     player0: {
-                        profileId: 511,
-                        name: "Sal",
+                        profileId: User.user.profileIconID,
+                        name: User.user.name,
                         currentHealth: 100
                     },
                     player1: {
