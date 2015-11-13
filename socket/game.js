@@ -115,7 +115,7 @@ var game = {
     var targetobj = this.players[enemy].field[target];
     if (this.hasChampion(enemy, 'Teemo')) {
       if (Math.random() < 0.5) {
-        card.dealDamage(4);
+        this.players[player].field[card].dealDamage(4);
       }
     }
     targetobj.dealDamage(damage);
