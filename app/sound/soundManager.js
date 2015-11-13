@@ -13,6 +13,8 @@ function backgroundMusic(){
 function soundController(soundType,id){
     if(!mute) {
         if(soundType == 'attack') {
+            console.log("playing attack card sound");
+            console.log(id);
             var sound = new buzz.sound('/rghack2015/app/sound/sounds/attack/' + id + '.ogg',{volume:50});
             sound.play();
         }
