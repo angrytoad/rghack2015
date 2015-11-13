@@ -18,7 +18,6 @@ var Card = function(player, id, champname) {
   this.description = champ.description;
   this.stunned = 0;
   this.lastAction = -1;
-  this.isInvulnerable = 0;
   this.dead = false;
 }
 
@@ -28,13 +27,22 @@ Card.prototype.dealDamage = function(amount) {
     return ;
   }
   if (game.hasChampion(this.player, 'Maokai')) {
-    amount -= 3;
+    amount -= 2;
     if (amount < 0) {
       amount = 0;
     }
   }
+  if (this.champion == "Alistar") {
+    amount = Math.floor(amount / 2);
+  }
+  if (amount > 0) {
+    game.sendData(0, 'damage', this.id);
+    game.sendData(1, 'damage', this.id);
+  }
   this.health -= amount;
-  if (game.hasChampion(this.player, 'Zilean') && this.health <= 0 && Math.random() < 0.5) {
+  if (game.hasChampion(this.player, 'Zilean') && this.health <= 0 && Math.random() < 0.25) {
+    game.sendData(0, 'zilean', this.id);
+    game.sendData(1, 'zilean', this.id);
     this.health = this.maxHealth;
   }
 }
@@ -52,14 +60,6 @@ Card.prototype.stun = function() {
 
 Card.prototype.destun = function() {
   this.stunned--;
-}
-
-Card.prototype.invulnerable = function() {
-  this.isInvulnerable++;
-}
-
-Card.prototype.makeVulnerable = function() {
-  this.isInvulnerable--;
 }
 
 module.exports = Card;

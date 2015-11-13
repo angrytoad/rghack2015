@@ -59,8 +59,8 @@ var game = {
     }
     console.log(this.players[0].deck);
     console.log(this.players[1].deck);
-    this.sendData(0, 'opponent', {name: this.players[1].name, id: this.players[1].id});
-    this.sendData(1, 'opponent', {name: this.players[0].name, id: this.players[0].id});
+    this.sendData(0, 'opponent', {name: this.players[1].name, icon: this.players[1].icon, id: this.players[1].id});
+    this.sendData(1, 'opponent', {name: this.players[0].name, icon: this.players[0].icon, id: this.players[0].id});
     this.sendState();
     this.turn = -1;
     this.nextTurn();
@@ -112,6 +112,9 @@ var game = {
 
   placeCard: function(player, hand) {
     console.log('placing card');
+    if (Object.keys(this.players[player].field).length == 7) {
+      return ;
+    }
     this.players[player].field[hand] = this.players[player].hand[hand];
     delete this.players[player].hand[hand];
     this.players[player].field[hand].container = 'field';
@@ -216,11 +219,11 @@ var game = {
     }
     if (action.type == "attack") {
       this.attack(player, action.card, action.target);
-      this.sendData(1 - player, 'attacked', action);
+      this.sendData(1 - player, 'attacked', action.card);
     }
     if (action.type == "ability") {
       this.ability(player, action.card, action.target);
-      this.sendData(1 - player, 'abilitied', action);
+      this.sendData(1 - player, 'attacked', action.card);
     }
     if (action.type == "endturn") {
       this.nextTurn();

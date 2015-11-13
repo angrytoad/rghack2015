@@ -9,8 +9,12 @@ var Champion = function(id, name, health, damage, targetType, cooldown, descript
   this.cooldown = cooldown;
   this.description = description;
 }
-
-champions['Bard'] = new Champion(432, 'Bard', 16, 4, 'none', 2, 
+champions['Alistar'] = new Champion(12, 'Alistar', 20, 3, 'passive', 2, 
+  'Passive: Takes 50% less damage.'
+  , function(a, e, t, s) {
+  // Ether freeze your cards or enemy's. Roll dice, based on what number you get resembles how many characters in the map you will freeze. 
+});
+champions['Bard'] = new Champion(432, 'Bard', 16, 4, 'passive', 2, 
   'Passive: Deals 3 damage to a secondary target when Bard attacks.'
   , function(a, e, t, s) {
   // Ether freeze your cards or enemy's. Roll dice, based on what number you get resembles how many characters in the map you will freeze. 
@@ -73,7 +77,7 @@ champions['Darius'] = new Champion(122, 'Darius', 24, 4, 'single', 4,
   for (var i in e) {
     if (e[i].id == t) {
       e[i].dealDamage(8);
-      if (e[i].hp < 0) {
+      if (e[i].hp <= 0) {
         s.currentCooldown = 0;
       }
     }
@@ -99,7 +103,7 @@ champions['MasterYi'] = new Champion(11, 'MasterYi', 10, 9, 'none', 0,
   // implemented
 });
 champions['Maokai'] = new Champion(57, 'Maokai', 30, 2, 'none', 0,
-  'Passive: Allied champions take 3 less damage from all sources.'
+  'Passive: Allied champions take 2 less damage from all sources.'
   , function(a, e, t, s) {
   // Damage reduction for the team (3 turns)
 });
@@ -167,7 +171,7 @@ champions['Riven'] = new Champion(92, 'Riven', 22, 5, 'none', 4,
   });
 });
 champions['Zilean'] = new Champion(26, 'Zilean', 12, 4, 'passive', 0,
-  'Passive: Allied champions has 50% to revive with full health after being dealt lethal damage whenever Zilean is in play.'
+  'Passive: Allied champions has 25% to revive with full health after being dealt lethal damage whenever Zilean is in play.'
   , function(a, e, t, s) {
   // Can cast on ally champion if they die this turn they are brought back to life with full hp
 });
