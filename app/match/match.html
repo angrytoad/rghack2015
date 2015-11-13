@@ -20,7 +20,7 @@
 								</h4>
 								
 								<!--health bar-->
-								<uib-progressbar class="progress-striped active" max="20" value="game.player0.currentHealth" type="danger"><i>{{game.player0.currentHealth}} / 100</i></uib-progressbar>
+								<uib-progressbar class="progress-striped active" max="20" value="game.player0.currentHealth" type="danger"><i>{{game.player0.currentHealth}} / 20</i></uib-progressbar>
 							</div>
 							<div class="media-right">
 								<div ng-if="game.playerNum == game.whosTurn">
@@ -52,9 +52,9 @@
 								<span style="width: 50%; float: left">{{card.damage}}</span>
 								<span style="width: 50%; float: left; text-align: right">{{card.health}}</span>
 							</div>
-							<div class="card-button-row">
+							<div class="card-button-row" ng-if="card.stunned == 0">
 								<button type="button" class="btn btn-lg btn-default" ng-disabled="card.lastAction == game.turn" ng-click="performAttack(card, 'basic')">Basic</button>
-								<button type="button" class="btn btn-danger btn-lg" ng-click="performAttack(card, 'special')" ng-disabled="card.lastAction == game.turn || card.currentCooldown > 0"> 
+								<button type="button" class="btn btn-danger btn-lg" ng-click="performAttack(card, 'special')" ng-if="card.targetType != 'passive'" ng-disabled="card.lastAction == game.turn || card.currentCooldown > 0"> 
 									Special <span class="badge badge-primary">{{card.currentCooldown}}</span>
 								</button>
 							</div>
@@ -95,7 +95,7 @@
 							<div class="media-body">
 								<h4>{{game.player1.name}}</h4>
 								<!--health bar-->
-								<uib-progressbar class="progress-striped active" max="20" value="game.player1.currentHealth" type="danger"><i>{{game.player1.currentHealth}} / 100</i></uib-progressbar>
+								<uib-progressbar class="progress-striped active" max="20" value="game.player1.currentHealth" type="danger"><i>{{game.player1.currentHealth}} / 20</i></uib-progressbar>
 							</div>
 							<div class="media-right">
 								<div ng-if="game.playerNum != game.whosTurn">

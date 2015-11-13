@@ -110,6 +110,11 @@ angular.module("MatchApp", [])
     		$scope.game.whosTurn = (e.data % 2 == User.playerNum) ? ($scope.game.cardPlaced = false, User.playerNum) : 1 - User.playerNum;
     	}
 
+    	if(e.type == "opponent"){
+    		$scope.game.player1.name = e.data.name;
+    		$scope.game.player1.profileId = e.data.icon;
+    	}
+
     	if(e.type == "hand"){
     		$scope.game.player0.draw = e.data;
     	}
@@ -144,6 +149,11 @@ angular.module("MatchApp", [])
     	if(e.type == "nexus"){
     		$scope.game.player0.currentHealth = e.data[User.playerNum];
     		$scope.game.player1.currentHealth = e.data[1 - User.playerNum];
+    	}
+
+    	//when zileans ult takes place
+    	if(e.type == "zilean"){
+    		$scope.reviveAnimcation(e.data);
     	}
 
     	//ENEMY HAND
@@ -201,11 +211,25 @@ angular.module("MatchApp", [])
 	});
 
   	$scope.performAttack = function(card, type){
-  		$scope.game.pendingAttack = true;
   		$scope.game.attackType = type;
   		selectedCard = card;
 
+  		//If type is
+  		if(type == "basic" || card.targetType=="single"){
+  			$scope.game.pendingAttack = true;
+  		} else if(card.targetType=="none") {
+  			$scope.submitAction({type: "ability", card: card.id, target: null});
+  		}
   		$log.info("performAttack: Champion: " + card.champion + ", type: " + type);
+  		
+  	}
+
+  	$scope.reviveAnimcation = function(target){
+  		$('#'+target).addClass('animated flipInX');
+  		
+  		$('#'+target).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$('#'+target).removeClass('animated flipInX');
+		});
   	}
 
   	$scope.attackAnimation = function(card, target){
