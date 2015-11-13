@@ -44,7 +44,7 @@ var game = {
     console.log(this.players[1].deck);
     this.sendData(0, 'opponent', {name: this.players[1].name, id: this.players[1].id});
     this.sendData(1, 'opponent', {name: this.players[0].name, id: this.players[0].id});
-    //this.sendState();
+    this.sendState();
     this.turn = -1;
     this.nextTurn();
     //this.endGame();
@@ -100,20 +100,28 @@ var game = {
   },
 
   attack: function(player, card, target) {
+    if (this.players[player].field[card].lastAction == this.turn) {
+      return ;
+    }
     var enemy = 1 - player;
     var damage = this.players[player].field[card].damage;
+    this.players[player].field[card].lastAction = this.turn;
     this.players[enemy].field[target].dealDamage(damage);
     this.checkDeath();
     this.sendState();
   },
 
   ability: function(player, card, target) {
+    if (this.players[player].field[card].lastAction == this.turn) {
+      return ;
+    }
     var enemy = 1 - player;
     var a = this.players[player].field;
     var e = this.players[enemy].field;
     console.log(a);
     console.log(e);
     console.log(this.players[player].field[card].ability);
+    this.players[player].field[card].lastAction = this.turn;
     this.players[player].field[card].currentCooldown = this.players[player].field[card].abilityCooldown;
     this.players[player].field[card].ability(a, e, target);
     this.checkDeath();
