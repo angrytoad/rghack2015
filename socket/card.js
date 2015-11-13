@@ -28,7 +28,7 @@ Card.prototype.dealDamage = function(amount) {
     return ;
   }
   if (game.hasChampion(this.player, 'Maokai')) {
-    amount -= 2;
+    amount -= 1;
     if (amount < 0) {
       amount = 0;
     }

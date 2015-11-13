@@ -100,14 +100,14 @@ champions['Kindred'] = new Champion(203, 'Kindred', 14, 5, 'passive', 0,
   // Gain 2 attack damage every kill
   // implemented
 });
-champions['MasterYi'] = new Champion(11, 'MasterYi', 10, 9, 'none', 0,
+champions['MasterYi'] = new Champion(11, 'MasterYi', 10, 9, 'passive', 0,
   'Passive: Whenever Master Yi attacks, there is 50% chance to attack twice.'
   , function(a, e, t, s) {
   // Roll a dice when you attack this turn, you have a 50% chance to attack that champion again.
   // implemented
 });
-champions['Maokai'] = new Champion(57, 'Maokai', 30, 2, 'none', 0,
-  'Passive: Allied champions take 2 less damage from all sources.'
+champions['Maokai'] = new Champion(57, 'Maokai', 30, 2, 'passive', 0,
+  'Passive: Allied champions take 1 less damage from all sources.'
   , function(a, e, t, s) {
   // Damage reduction for the team (3 turns)
 });
@@ -161,7 +161,7 @@ champions['Teemo'] = new Champion(17, 'Teemo', 14, 5, 'passive', 0,
   // implemented
 });
 champions['Riven'] = new Champion(92, 'Riven', 22, 5, 'none', 4,
-  'Riven gains 8 attack damage for your next two turns. Deals 4 damage to all enemy champions at your third turn.'
+  'Blade of the Exile: Riven gains 8 attack damage for your next two turns. Deals 4 damage to all enemy champions at your third turn.'
   , function(a, e, t, s) {
   // Use ult to increase basic attacks for the next 2 turns, on your third turn you can aoe for a small amount of damage
   s.damage += 8;
