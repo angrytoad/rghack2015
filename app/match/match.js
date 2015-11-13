@@ -11,7 +11,6 @@ angular.module("MatchApp", [])
 .service("Match", function(){
 	this.game = {
 		gameID: 747,
-		whosTurn: 0,
 		player0: {
 			profileId: 511,
 			name: "Sal", 
@@ -53,8 +52,11 @@ angular.module("MatchApp", [])
 		}
 	}
 })
-.controller("MatchCtrl", ['$scope', '$interval', '$log', 'User', 'Match', 'ActionLog', function($scope, $interval, $log, User, Match, ActionLog){
+.controller("MatchCtrl", ['$scope', '$interval', '$log', '$q', 'User', 'Match', 'ActionLog', function($scope, $interval, $log, $q, User, Match, ActionLog){
 	$scope.game = Match.game;
+	$scope.game.whosTurn = 0;
+	$scope.game.cardPlaced = false;
+	$scope.game.playerNum = User.playerNum;
 	console.log($scope.game);
 
 	$interval(function(){
@@ -102,40 +104,83 @@ angular.module("MatchApp", [])
     	$.extend(true, e, JSON.parse(event.data));
 
     	console.log(e);
-    	//WHEN DRAWING
-    	if(e.type == "draw"){
 
-			try { $scope.game.player0.draw.push(e.data); 
-			} catch(e) {
-				$scope.game.player0.draw = [];
-				$scope.game.player0.draw.push(e.data);
-
-				$log.error("Try catch player0");
-				$log.debug($scope.game.player0);
-			}
-
-			$log.info("Player0 Object");
-    		$log.debug($scope.game.player0);
-
-			$scope.$digest();
+    	//TURNS
+    	if(e.type == "turn"){
+    		$scope.game.whosTurn = (e.data % 2 == User.playerNum) ? ($scope.game.cardPlaced = false, User.playerNum) : 1 - User.playerNum;
     	}
+
+    	if(e.type == "hand"){
+    		$scope.game.player0.draw = e.data;
+    	}
+
+    	if(e.type == "player"){
+    		$scope.game.player0.onField = e.data;
+    	}
+
+    	if(e.type == "enemy"){
+    		$scope.game.player1.onField = e.data;
+    	}
+
+    	//WHEN DRAWING
+   //  	if(e.type == "draw"){
+
+			// try { $scope.game.player0.draw.push(e.data); 
+			// } catch(e) {
+			// 	$scope.game.player0.draw = [];
+			// 	$scope.game.player0.draw.push(e.data);
+
+			// 	$log.error("Try catch player0");
+			// 	$log.debug($scope.game.player0);
+			// }
+
+			// $log.info("Player0 Object");
+   //  		$log.debug($scope.game.player0);
+
+			// $scope.$digest();
+   //  	}
+
+    	//ENEMY HAND
+    	if(e.type == "enemyPlace"){
+
+    	}
+
+
   	};
 
   	$scope.submitAction = function(action){
+  		var p = $q.defer();
 
   		ActionLog.sendAction(User.playerNum, action).then(function(response){
-  			$log.info("ActionLog.sendAction: Response"); 
+  			$log.info("ActionLog.sendAction: Response -");
+  			$log.debug(action);
   			$log.debug(response);
+
+  			p.resolve(true);
   		})
+
+  		return p.promise;
+  	}
+
+  	$scope.endTurn = function(){
+
+  		$scope.submitAction({type: "endturn"});
   	}
 
   	$scope.placeCard = function(card){
-  		//remove from draw
-  		$scope.game.player0.draw.splice($scope.game.player0.draw.indexOf(card), 1);
-  		//push to field
-  		$scope.game.player0.onField.push(card);
+  		// //remove from draw
+  		// $scope.game.player0.draw.splice($scope.game.player0.draw.indexOf(card), 1);
+  		// //push to field
+  		// $scope.game.player0.onField.push(card);
+
+  		$log.info("placeCard");
+  		$log.debug(card);
 
   		//send action
-  		$scope.submitAction({type: "place", hand: card.id});
+  		if($scope.game.cardPlaced == false){
+	  		$scope.submitAction({type: "place", hand: card.id}).then(function(){
+	  			$scope.game.cardPlaced = true;
+	  		})
+  		}
   	}
 }])

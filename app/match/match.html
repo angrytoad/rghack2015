@@ -25,6 +25,14 @@
 								<!--health bar-->
 								<uib-progressbar class="progress-striped active" max="100" value="game.player0.currentHealth" type="danger"><i>{{game.player0.currentHealth}} / 100</i></uib-progressbar>
 							</div>
+							<div class="media-right">
+								<div ng-if="game.playerNum == game.whosTurn">
+									<span class="label label-primary">
+										Your Turn
+									</span>
+									<button type="button" class="btn btn-primary" ng-click="endTurn()">End Turn</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -32,8 +40,9 @@
 				<!--card field-->
 				<div class="row" ng-attr-style="height: {{(dims.height/2)*.80}}px">
 					<div class="inline">
-						<span ng-repeat="card in game.player0.onField">
-							{{card}}
+						<span ng-repeat="card in game.player0.onField" style=" position: relative; height: 450px; width: 300px; overflow: hidden;">
+							<img src="images/card_template-01.png" class="card"/>
+							<img ng-src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{card.champion}}_0.jpg" class="champion-card-image"/>
 						</span>
 					</div>
 				</div>
@@ -45,8 +54,9 @@
 			<div class="row" ng-attr-style="height: {{dims.height/2}}px; margin: 0px 0px 0px 0px">
 				<!--card field-->
 				<div class="row" ng-attr-style="height: {{(dims.height/2)*.80}}px">
+					<span ng-repeat="card in game.player1.onField" class="card">
 
-					{{game.player1.draw}}
+					</span>
 				</div>
 
 				<!--info row-->
@@ -60,6 +70,13 @@
 								<h4>{{game.player1.name}}</h4>
 								<!--health bar-->
 								<uib-progressbar class="progress-striped active" max="100" value="game.player1.currentHealth" type="danger"><i>{{game.player1.currentHealth}} / 100</i></uib-progressbar>
+							</div>
+							<div class="media-right">
+								<div ng-if="game.playerNum != game.whosTurn">
+									<span class="label label-primary">
+										Enemy Turn
+									</span>
+								</div>
 							</div>
 						</div>
 					</div>

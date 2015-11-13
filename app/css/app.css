@@ -24,12 +24,18 @@ body {
 /* Card Template Styles */
 
 .card {
-	
+    display: inline-block;
+    width: 300px;
+    height: 450px;
+    z-index: 2;
+    position: absolute;
 }
 
-.card img {
-	height: 250px;
-	width: 250px;
+.champion-card-image {
+    z-index: -2;
+    position: absolute;
+    width: 280px;
+    left: 8px;
 }
 
 .card div {
