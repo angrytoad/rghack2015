@@ -153,7 +153,7 @@ var game = {
     }
     this.checkDeath();
     if (cardobj.champion == "Kindred" && targetobj.dead) {
-      card.damage += 2;
+      cardobj.damage += 2;
     }
     this.sendState();
   },
@@ -252,6 +252,7 @@ var game = {
       events[i].cb(events[i].obj);
     }
     delete this.turnEvents[this.turn];
+    this.checkDeath();
   },
 
   hasChampion: function(player, champion) {
