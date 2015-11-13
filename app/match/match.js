@@ -58,11 +58,9 @@ angular.module("MatchApp", [])
 	$scope.game.cardPlaced = false;
 	$scope.game.playerNum = User.playerNum;
 	$scope.game.gameResult = null;
+	
+	$log.info("Game:");
 	console.log($scope.game);
-
-	$interval(function(){
-		$scope.game.player1.currentHealth = ($scope.game.player1.currentHealth > 0) ? $scope.game.player1.currentHealth-1 : 120;
-	}, 100);
 
 	$scope.dims = {
 		height: '100%',
@@ -137,13 +135,13 @@ angular.module("MatchApp", [])
     		$scope.game.gameResult = "defeat";
     	}
 
-    	else if(e.type == ""){
-    		
+    	else if(e.type == "nexus"){
+    		$scope.game.player0.currentHealth = e.data[0];
     	}
 
     	//ENEMY HAND
     	if(e.type == "enemyPlace"){
-
+    		$scope.game.player1.currentHealth = e.data[1];
     	}
 
 
