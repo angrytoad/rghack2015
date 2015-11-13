@@ -180,16 +180,14 @@ var game = {
     this.turn++;
     this.runEvents();
     this.reduceCooldowns();
+    this.sendData(0, 'turn', this.turn);
+    this.sendData(1, 'turn', this.turn);
+    this.drawCard(this.turn % 2);
     this.sendState();
     if (this.nexus[0] <= 0 || this.nexus[1] <= 0) {
       this.sendData(0, this.nexus[0] < 0 ? 'defeat' : 'victory', this.turn);
       this.sendData(1, this.nexus[1] < 0 ? 'defeat' : 'victory', this.turn);
-      return ;
     }
-
-    this.sendData(0, 'turn', this.turn);
-    this.sendData(1, 'turn', this.turn);
-    this.drawCard(this.turn % 2);
   },
 
   action: function(player, action) {
