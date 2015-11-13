@@ -179,6 +179,7 @@ var game = {
     }
     this.turn++;
     this.runEvents();
+    this.reduceCooldowns();
     this.sendState();
     if (x <= 0 || y <= 0) {
       this.sendData(0, x < 0 ? 'defeat' : 'victory', this.turn);
@@ -240,6 +241,19 @@ var game = {
     }
     if (this.sockets && this.sockets[1]) {
       this.sockets[1].write('\n');
+    }
+  },
+
+  reduceCooldowns: function() {
+    for (var i in this.players[0].field) {
+      if (this.players[0].field[i].currentCooldown > 0) {
+        this.players[0].field[i].currentCooldown--;
+      }
+    }
+    for (var i in this.players[1].field) {
+      if (this.players[1].field[i].currentCooldown > 0) {
+        this.players[1].field[i].currentCooldown--;
+      }
     }
   }
 }
