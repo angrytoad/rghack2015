@@ -1,4 +1,3 @@
-var game = require('./game');
 var champion = require('./champion');
 
 var Card = function(player, id, champname) {
@@ -27,7 +26,7 @@ Card.prototype.dealDamage = function(amount) {
   if (this.isInvulnerable) {
     return ;
   }
-  if (game.hasChampion(this.player, 'Maokai')) {
+  if (require('./game').hasChampion(this.player, 'Maokai')) {
     amount -= 3;
   }
   this.health -= amount;
