@@ -45,6 +45,7 @@
 							<img ng-src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{card.champion}}_0.jpg" class="card-champion-image"/>
 							<!--ability info-->
 							<div class="card-champion-ability-info">
+								<p>{{card.description}}</p>
 							</div>
 							<!--attack and health-->
 							<div class="card-champion-stats">
@@ -52,8 +53,10 @@
 								<span style="width: 50%; float: left; text-align: right">{{card.health}}</span>
 							</div>
 							<div class="card-button-row">
-								<button type="button" class="btn btn-lg btn-default" ng-disabled="card.actionFlag" ng-click="performAttack(card, 'basic')">Basic</button>
-								<button type="button" class="btn btn-danger btn-lg" ng-disabled="card.actionFlag" ng-click="performAttack(card, 'special')">Special</button>
+								<button type="button" class="btn btn-lg btn-default" ng-disabled="card.lastAction == game.turn" ng-click="performAttack(card, 'basic')">Basic</button>
+								<button type="button" class="btn btn-danger btn-lg" ng-click="performAttack(card, 'special')" ng-disabled="card.lastAction == game.turn || card.currentCooldown > 0"> 
+									Special <span class="badge badge-primary">{{card.currentCooldown}}</span>
+								</button>
 							</div>
 						</span>
 					</div>
@@ -72,6 +75,7 @@
 						<img ng-src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{card.champion}}_0.jpg" class="card-champion-image"/>
 						<!--ability info-->
 						<div class="card-champion-ability-info">
+							{{card.description}}
 						</div>
 						<!--attack and health-->
 						<div class="card-champion-stats">

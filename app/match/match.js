@@ -106,6 +106,7 @@ angular.module("MatchApp", [])
 
     	//TURNS
     	if(e.type == "turn"){
+    		$scope.game.turn = e.data;
     		$scope.game.whosTurn = (e.data % 2 == User.playerNum) ? ($scope.game.cardPlaced = false, User.playerNum) : 1 - User.playerNum;
     	}
 
@@ -135,7 +136,9 @@ angular.module("MatchApp", [])
     	}
 
     	if(e.type == "attacked"){
-
+    		$log.info("attacked");
+    		$log.debug(e.data);
+    		$scope.attackAnimation(e.data.card, e.data.target)
     	}
 
     	if(e.type == "nexus"){
@@ -187,6 +190,7 @@ angular.module("MatchApp", [])
 		if(type == "basic"){
 			soundController('attack',card.championid);
 			$scope.submitAction({type: "attack", card: card.id, target: enemyCard.id});
+			card.basicFlag = true;
 		}
 		else if(type == "special"){
 			soundController("special", card.championid);
@@ -222,7 +226,7 @@ angular.module("MatchApp", [])
   			$scope.$broadcast("attack", {type: $scope.game.attackType, card: selectedCard, enemyCard: card});
   		}
 
-  		$scope.attackAnimation(selectedCard.id, card);
+  		$scope.attackAnimation(selectedCard.id, card.id);
 		// $('#'+selectedCard.id).addClass('animated').addClass('flip');
 
 		// $('#'+selectedCard.id).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
