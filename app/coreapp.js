@@ -2,6 +2,7 @@
 
 //javaglobals
 var mute = false;
+var attackedAnimation;
 
 angular.module('CoreApp', [
 	'ngRoute',

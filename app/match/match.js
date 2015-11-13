@@ -143,7 +143,11 @@ angular.module("MatchApp", [])
     	if(e.type == "attacked"){
     		$log.info("attacked");
     		$log.debug(e.data);
-    		$scope.attackAnimation(e.data.card, e.data.target)
+    		$scope.attackAnimation(e.data);
+    	}
+
+    	if(e.type == "damage"){
+    		$scope.attackedAnimation(e.data.id, e.data.amount);	
     	}
 
     	if(e.type == "nexus"){
@@ -232,17 +236,35 @@ angular.module("MatchApp", [])
 		});
   	}
 
-  	$scope.attackAnimation = function(card, target){
-  		$('#'+card).addClass('animated').addClass('flip');
+  	$scope.attackAnimation = function(card){
+  		
+		$('#'+card).addClass('animated').addClass('flip');
 
   		$('#'+card).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 			$('#'+card).removeClass('animated flip');
-			$('#'+target).addClass('animated').addClass('shake');
+			
+		});
+  	}
+
+  	$scope.attackedAnimation = function(target, damage){
+  		$('#'+target).addClass('animated').addClass('shake');
+		$('#'+target).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$('#'+target).removeClass('animated shake');
+			//show damage
+			$('#'+target+"_dmg").text(damage).addClass('animated bounceIn');
 			$('#'+target).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-				$('#'+target).removeClass('animated shake');
+				setTimeout(function(){
+					$('#'+target+"_dmg").removeClass('animated bounceIn').addClass('animated fadeOutUp');
+					$('#'+target).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+						$('#'+target+"_dmg").removeClass('animated fadeOutUp');
+						$('#'+target+'_dmg').text('');
+					});
+				},800);
 			});
 		});
   	}
+
+  	attackedAnimation = $scope.attackedAnimation;
 
 	$scope.stunAnimation = function(target){
 		$('#'+target).addClass('slowAnimate infinite swing stunned');

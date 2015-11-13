@@ -24,10 +24,10 @@
 							</div>
 							<div class="media-right">
 								<div ng-if="game.playerNum == game.whosTurn">
-									<span class="label label-primary">
+									<span class="label label-success">
 										Your Turn
 									</span>
-									<button type="button" class="btn btn-primary" ng-click="endTurn()">End Turn</button>
+									<button type="button" class="btn btn-warning" ng-click="endTurn()">End Turn</button>
 								</div>
 							</div>
 						</div>
@@ -52,6 +52,7 @@
 								<span style="width: 50%; float: left">{{card.damage}}</span>
 								<span style="width: 50%; float: left; text-align: right">{{card.health}}</span>
 							</div>
+							<div class="card-champion-damage" ng-attr-id="{{card.id}}_dmg"></div>
 							<div class="card-button-row" ng-if="card.stunned == 0">
 								<button type="button" class="btn btn-lg btn-default" ng-disabled="card.lastAction == game.turn" ng-click="performAttack(card, 'basic')">Basic</button>
 								<button type="button" class="btn btn-danger btn-lg" ng-click="performAttack(card, 'special')" ng-if="card.targetType != 'passive'" ng-disabled="card.lastAction == game.turn || card.currentCooldown > 0"> 
@@ -77,6 +78,7 @@
 						<div class="card-champion-ability-info">
 							{{card.description}}
 						</div>
+						<div class="card-champion-damage" ng-attr-id="{{card.id}}_dmg"></div>
 						<!--attack and health-->
 						<div class="card-champion-stats">
 							<span style="width: 50%; float: left">{{card.damage}}</span>
@@ -99,7 +101,7 @@
 							</div>
 							<div class="media-right">
 								<div ng-if="game.playerNum != game.whosTurn">
-									<span class="label label-primary">
+									<span class="label label-danger">
 										Enemy Turn
 									</span>
 								</div>
