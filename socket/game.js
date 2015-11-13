@@ -227,7 +227,9 @@ var game = {
   },
 
   runEvents: function() {
-    if (this.turnEvents['turn' + this.turn] == undefined)
+    if (this.turnEvents['turn' + this.turn] == undefined) {
+      return ;
+    }
     var events = this.turnEvents['turn' + this.turn];
     for (var i in events) {
       if (events[i].obj.dead) {

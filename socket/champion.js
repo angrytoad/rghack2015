@@ -125,7 +125,7 @@ champions['Morgana'] = new Champion(25, 'Morgana', 16, 4, 'none', 6,
   // roll a dice, stun and damage the number rolled in random champions
   for (var i in e) {
     e[i].dealDamage(4);
-    o.stun();
+    e[i].stun();
     require('./game').addEvent(2, e[i], function(o) {
       o.dealDamage(4);
       o.destun();
