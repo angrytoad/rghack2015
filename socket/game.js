@@ -232,7 +232,7 @@ var game = {
       this.nextTurn();
     }
     if (action.type == "taunt") {
-      this.sendData(1 - player, 'taunt', null);
+      this.sendData(1 - player, 'taunt', {});
     }
   },
 
