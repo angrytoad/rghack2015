@@ -24,6 +24,10 @@ function soundController(soundType,id){
             var sound = new buzz.sound('/rghack2015/app/sound/sounds/death/'+ id + '.ogg',{volume:35});
             sound.play();
         }
+        if(soundType == 'special'){
+            var sound = new buzz.sound('/rghack2015/app/sound/sounds/special/'+ id + '.ogg',{volume:35});
+            sound.play();
+        }
         if(soundType == 'yourTurn'){
             var sound = new buzz.sound('/rghack2015/app/sound/sounds/misc/yourTurn.mp3',{volume:30});
             sound.play();
