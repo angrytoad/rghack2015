@@ -9,13 +9,15 @@ var game = {
   turn: 0,
   sockets: [null, null],
 
-  initGame: function(deck) {
+  initGame: function(deck, name, icon) {
     if (this.players == null || this.players[1] != null) {
       this.players = [];
       this.players[0] = {
         'field' : {},
         'hand': {},
         'deck': deck,
+        'name': name,
+        'id': icon
       };
       this.sockets = [null, null];
       return '0';
@@ -24,6 +26,8 @@ var game = {
       'field' : {},
       'hand': {},
       'deck': deck,
+      'name': name,
+      'id': icon
     };
     return '1';
   },
@@ -38,7 +42,8 @@ var game = {
     }
     console.log(this.players[0].deck);
     console.log(this.players[1].deck);
-    this.sendState();
+    this.sendData(0, 'opponent', {name: this.players[1]., });
+    //this.sendState();
     this.turn = -1;
     this.nextTurn();
     //this.endGame();

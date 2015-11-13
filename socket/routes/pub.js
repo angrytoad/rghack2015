@@ -14,6 +14,12 @@ router.post('/*', function(req, res, next) {
   next();
 })
 
+router.options('/*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+  next();
+})
+
 router.get('/game', function(req, res, next) {
   var player = parseInt(req.query.player);
   game.sockets[player] = res;

@@ -9,20 +9,20 @@ var Champion = function(id, health, damage, targetType, cooldown, ability) {
 }
 
 
-champions['Bard'] = new Champion('Bard', 15, 2, 'none', 3, function(a, e, t) {
-  // does nothing
+champions['Bard'] = new Champion('Bard', 16, 2, 'none', 2, function(a, e, t) {
+  // Ether freeze your cards or enemy's. Roll dice, based on what number you get resembles how many characters in the map you will freeze. 
 });
-champions['Brand'] = new Champion('Brand', 15, 2, 'none', 3, function(a, e, t) {
-  // does nothing
+champions['Brand'] = new Champion('Brand', 10, 9, 'single', 4, function(a, e, t) {
+  // Choose a target, this spell hits the target and a random card
 });
-champions['ChoGath'] = new Champion('ChoGath', 15, 2, 'none', 3, function(a, e, t) {
-  // does nothing
+champions['ChoGath'] = new Champion('Chogath', 32, 3, 'single', 3, function(a, e, t) {
+  // If chogath kills an enemy, he permenantly gains health
 });
-champions['Caitlyn'] = new Champion('Caitlyn', 15, 2, 'none', 3, function(a, e, t) {
-  // does nothing
+champions['Caitlyn'] = new Champion('Caitlyn', 8, 7, 'none', 4, function(a, e, t) {
+  // Single target high damage to highest hp
 });
-champions['Darius'] = new Champion('Darius', 15, 2, 'none', 3, function(a, e, t) {
-  // does nothing
+champions['Darius'] = new Champion('Darius', 24, 4, 'single', 3, function(a, e, t) {
+  // Damage an enemy, if you kill that enemy you can use your ult again next turn
 });
 champions['Karthus'] = new Champion('Karthus', 15, 2, 'none', 3, function(a, e, t) {
   for (var i in e) {
@@ -32,7 +32,7 @@ champions['Karthus'] = new Champion('Karthus', 15, 2, 'none', 3, function(a, e, 
 champions['Kindred'] = new Champion('Kindred', 15, 2, 'none', 3, function(a, e, t) {
   // does nothing
 });
-champions['Master Yi'] = new Champion('Master Yi', 15, 2, 'none', 3, function(a, e, t) {
+champions['Master Yi'] = new Champion('MasterYi', 15, 2, 'none', 3, function(a, e, t) {
   // does nothing
 });
 champions['Maokai'] = new Champion('Maokai', 15, 2, 'none', 3, function(a, e, t) {
