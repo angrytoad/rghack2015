@@ -33,7 +33,7 @@ function soundController(soundType,id){
             sound.play();
         }
         if(soundType == 'match'){
-            var sound = new buzz.sound('/rghack2015/app/sound/sounds/misc/matchMusic.mp3',{volume:15});
+            var sound = new buzz.sound('/rghack2015/app/sound/sounds/misc/matchMusic.mp3',{volume:25});
             sound.play();
         }
     }
