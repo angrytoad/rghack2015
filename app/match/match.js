@@ -11,6 +11,7 @@ angular.module("MatchApp", [])
 .service("Match", function(){
 	this.game = {
 		gameID: 747,
+		whosTurn: 0,
 		player0: {
 			profileId: 511,
 			name: "Sal", 
@@ -25,7 +26,34 @@ angular.module("MatchApp", [])
 		}
 	};
 })
-.controller("MatchCtrl", ['$scope', '$interval', '$log', 'User', 'Match', function($scope, $interval, $log, User, Match){
+.factory("ActionLog", function($http, $q, $log){
+	return {
+		sendAction: function(player, action){
+			var p = $q.defer();
+
+			$http({
+				method: "POST",
+				url: "http://52.32.183.170:3000/action",
+				data: $.param({
+					player: player,
+					action: JSON.stringify(action)
+				}),
+				headers: {
+					"Content-Type":"application/x-www-form-urlencoded"
+				}
+			})
+			.success(function(result){
+				p.resolve(result);
+			})
+			.error(function(){
+				p.reject(false);
+			})
+
+			return p.promise;
+		}
+	}
+})
+.controller("MatchCtrl", ['$scope', '$interval', '$log', 'User', 'Match', 'ActionLog', function($scope, $interval, $log, User, Match, ActionLog){
 	$scope.game = Match.game;
 	console.log($scope.game);
 
@@ -66,6 +94,7 @@ angular.module("MatchApp", [])
 	console.log(sourceUrl);
 	var player = new EventSource(sourceUrl);
  	$scope.game.player0.draw = [];
+ 	$scope.game.player0.onField = [];
 
  	player.onmessage = function(event) {
     	//console.log(event.data);
@@ -91,4 +120,22 @@ angular.module("MatchApp", [])
 			$scope.$digest();
     	}
   	};
+
+  	$scope.submitAction = function(action){
+
+  		ActionLog.sendAction(User.playerNum, action).then(function(response){
+  			$log.info("ActionLog.sendAction: Response"); 
+  			$log.debug(response);
+  		})
+  	}
+
+  	$scope.placeCard = function(card){
+  		//remove from draw
+  		$scope.game.player0.draw.splice($scope.game.player0.draw.indexOf(card), 1);
+  		//push to field
+  		$scope.game.player0.onField.push(card);
+
+  		//send action
+  		$scope.submitAction({type: "place", hand: card.id});
+  	}
 }])

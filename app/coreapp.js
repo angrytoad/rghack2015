@@ -1,5 +1,8 @@
 'use strict';
 
+//javaglobals
+var mute = false;
+
 angular.module('CoreApp', [
 	'ngRoute',
 	"ngAnimate",

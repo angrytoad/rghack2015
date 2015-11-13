@@ -17,7 +17,7 @@
 							</div>
 							<div class="media-body">
 								<h4>{{game.player0.name}}
-									<span ng-repeat="card in game.player0.draw">
+									<span ng-repeat="card in game.player0.draw" ng-click="placeCard(card)">
 										<img ng-src="http://ddragon.leagueoflegends.com/cdn/5.22.3/img/champion/{{card.champion}}.png" height="33px"/>
 									</span>
 								</h4>
@@ -32,21 +32,9 @@
 				<!--card field-->
 				<div class="row" ng-attr-style="height: {{(dims.height/2)*.80}}px">
 					<div class="inline">
-						<div>
-							{{game.player0.draw[0]}}
-						</div>
-						<div>
-							{{game.player0.draw[1]}}
-						</div>
-						<div>
-							{{game.player0.draw[2]}}
-						</div>
-						<div>
-							{{game.player0.draw[3]}}
-						</div>
-						<div>
-							{{game.player0.draw[4]}}
-						</div>
+						<span ng-repeat="card in game.player0.onField">
+							{{card}}
+						</span>
 					</div>
 				</div>
 
