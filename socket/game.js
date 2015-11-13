@@ -42,7 +42,8 @@ var game = {
     }
     console.log(this.players[0].deck);
     console.log(this.players[1].deck);
-    this.sendData(0, 'opponent', {name: this.players[1]., });
+    this.sendData(0, 'opponent', {name: this.players[1].name, id: this.players[1].id});
+    this.sendData(1, 'opponent', {name: this.players[0].name, id: this.players[0].id});
     //this.sendState();
     this.turn = -1;
     this.nextTurn();
