@@ -1,5 +1,3 @@
-var game = require('./game');
-
 var champions = {};
 var Champion = function(id, name, health, damage, targetType, cooldown, description, ability) {
   this.id = id;
@@ -19,7 +17,7 @@ champions['Bard'] = new Champion(432, 'Bard', 16, 2, 'none', 2,
   for (var i in a) {
     if (Math.random() < 0.7) {
       a[i].invulnerable();
-      game.addEvent(2, a[i], function(o) {
+      require('./game').addEvent(2, a[i], function(o) {
         o.makeVulnerable();
       });
     }
@@ -27,7 +25,7 @@ champions['Bard'] = new Champion(432, 'Bard', 16, 2, 'none', 2,
   for (var i in e) {
     if (Math.random() < 0.3) {
       e[i].invulnerable();
-      game.addEvent(3, e[i], function(o) {
+      require('./game').addEvent(3, e[i], function(o) {
         o.makeVulnerable();
       });
     }
@@ -128,7 +126,7 @@ champions['Morgana'] = new Champion(25, 'Morgana', 16, 4, 'none', 6,
   for (var i in e) {
     e[i].dealDamage(4);
     o.stun();
-    game.addEvent(2, e[i], function(o) {
+    require('./game').addEvent(2, e[i], function(o) {
       o.dealDamage(4);
       o.destun();
     });
@@ -139,7 +137,7 @@ champions['Rengar'] = new Champion(107, 'Rengar', 15, 7, 'none', 4,
   , function(a, e, t, s) {
   // Rengar goes 'On the hunt' for one turn, then on the next turn does bonus damage
   s.damage += 9;
-  game.addEvent(3, s, function(o) {
+  require('./game').addEvent(3, s, function(o) {
     o.damage -= 7;
   });
 });
@@ -151,7 +149,7 @@ champions['Sona'] = new Champion(37, 'Sona', 10, 6, 'none', 6,
     if (Math.random() < 0.5) {
       e[i].dealDamage(8);
       e[i].stun();
-      game.addEvent(2, e[i], function(o) {
+      require('./game').addEvent(2, e[i], function(o) {
         o.destun();
       });
     }
@@ -175,10 +173,10 @@ champions['Riven'] = new Champion(92, 'Riven', 22, 5, 'none', 4,
   , function(a, e, t, s) {
   // Use ult to increase basic attacks for the next 2 turns, on your third turn you can aoe for a small amount of damage
   o.damage += 8;
-  game.addEvent(5, s, function(o) {
+  require('./game').addEvent(5, s, function(o) {
     o.damage -= 8;
   });
-  game.addEvent(6, e, function(o) {
+  require('./game').addEvent(6, e, function(o) {
     for (var i in o) {
       o[i].dealDamage(4);
     }
