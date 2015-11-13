@@ -8,12 +8,12 @@ angular.module("MatchApp", [])
 			controller: "MatchCtrl"
 		})
 }])
-.service("Match", function(){
+.service("Match", function(User){
 	this.game = {
 		gameID: 747,
 		player0: {
-			profileId: 511,
-			name: "Sal", 
+			profileId: User.user.profileIconID,
+			name: User.user.name, 
 			currentHealth: 100,
 			draw: []
 		},
