@@ -57,6 +57,7 @@ angular.module("MatchApp", [])
 	$scope.game.whosTurn = 0;
 	$scope.game.cardPlaced = false;
 	$scope.game.playerNum = User.playerNum;
+	$scope.game.gameResult = null;
 	console.log($scope.game);
 
 	$interval(function(){
@@ -128,8 +129,20 @@ angular.module("MatchApp", [])
     		soundController('death', '' + e.data);
     	}
 
+    	else if(e.type == "victory"){
+    		$scope.game.gameResult = 'victory';
+    	}
+
+    	else if(e.type == "defeat"){
+    		$scope.game.gameResult = "defeat";
+    	}
+
+    	else if(e.type == ""){
+    		
+    	}
+
     	//ENEMY HAND
-    	else if(e.type == "enemyPlace"){
+    	if(e.type == "enemyPlace"){
 
     	}
 
@@ -169,11 +182,11 @@ angular.module("MatchApp", [])
 		$log.info("performAttack: Enemy Champion: " + enemyCard.champion + ", health: " + enemyCard.health);
 
 		if(type == "basic"){
-			soundController('attack',enemyCard.championid);
+			soundController('attack',card.championid);
 			$scope.submitAction({type: "attack", card: card.id, target: enemyCard.id});
 		}
 		else if(type == "special"){
-			soundController("special", enemyCard.championid);
+			soundController("special", card.championid);
 			$scope.submitAction({type: "ability", card: card.id, target: enemyCard.id});
 		}
 

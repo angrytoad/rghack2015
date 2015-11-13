@@ -22,6 +22,20 @@ body {
 }
 
 /* Card Template Styles */
+.card-attacked {
+
+  z-index: 10;
+  position: absolute;
+  width: 280px;
+  left: 8px;
+}
+
+.victory-banner{
+  position: absolute;
+  width:1000px;
+  margin-left:calc(50% - 500px);
+  top: calc(50% - 325px);
+}
 
 .card {
     display: inline-block;

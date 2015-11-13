@@ -1,9 +1,6 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-1" style="background-color: grey">
-			<!--show match history-->
-		</div>
-		<div class="col-md-11" id="board">
+		<div class="col-md-12" id="board">
 			<!--2 rows for each player-->
 
 			<!--player 1-->
@@ -106,8 +103,10 @@
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
+	<!--game result-->
+	<img src="images/victory.png" class="victory-banner" ng-if="game.gameResult == 'victory'"/>
+	<img src="images/defeat.png" class="victory-banner" ng-if="game.gameResult == 'defeat'"/>
 </div>
