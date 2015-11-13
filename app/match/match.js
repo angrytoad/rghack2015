@@ -216,6 +216,14 @@ angular.module("MatchApp", [])
 		});
   	}
 
+	$scope.stunAnimation = function(target){
+		$('#'+target).addClass('slowAnimate infinite swing');
+	}
+
+	$scope.removeStunAnimation = function(target){
+		$('#'+target).removeClass('slowAnimate infinite swing');
+	}
+
   	$scope.targetEnemy = function(card){
   		if($scope.game.pendingAttack){
   			$log.info("targetEnemy: Enemy Champion " + card.champion);
