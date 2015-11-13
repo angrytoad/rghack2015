@@ -8,10 +8,12 @@ var game = {
   players: null,
   turn: 0,
   sockets: [null, null],
+  turnEvents: {},
 
   initGame: function(deck, name, id) {
     if (this.players == null || this.players[1] != null) {
       this.players = [];
+      this.turnEvents = {};
       this.players[0] = {
         'field' : {},
         'hand': {},
@@ -106,8 +108,20 @@ var game = {
     var enemy = 1 - player;
     var damage = this.players[player].field[card].damage;
     this.players[player].field[card].lastAction = this.turn;
-    this.players[enemy].field[target].dealDamage(damage);
+    var targetobj = this.players[enemy].field[target];
+    if (this.hasChampion(enemy, 'Teemo')) {
+      if (Math.random() < 0.5) {
+        card.dealDamage(4);
+      }
+    }
+    targetobj.dealDamage(damage);
+    if (card.champion == "MasterYi") {
+      targetobj.dealDamage(damage);
+    }
     this.checkDeath();
+    if (card.champion == "Kindred" && targetobj.dead) {
+      card.damage += 2;
+    }
     this.sendState();
   },
 
@@ -133,6 +147,7 @@ var game = {
       var keys = Object.keys(this.players[j].field);
       for (var i in keys) {
         if (this.players[j].field[keys[i]].health < 0) {
+          this.players[j].field[keys[i]].dead = true;
           delete this.players[j].field[keys[i]];
         }
       }
@@ -145,8 +160,10 @@ var game = {
 
   nextTurn: function() {
     this.turn++;
+    this.runEvents();
     this.sendData(0, 'turn', this.turn);
     this.sendData(1, 'turn', this.turn);
+    this.sendState();
   },
 
   action: function(player, action) {
@@ -163,6 +180,33 @@ var game = {
     if (action.type == "endturn") {
       this.nextTurn();
     }
+  },
+
+  addEvent: function(delay, obj, cb) {
+    if (this.turnEvents['turn' + (this.turn + delay)] == undefined) {
+      this.turnEvents['turn' + (this.turn + delay)] = [];
+    }
+    this.turnEvents['turn' + (this.turn + delay)].push({obj: obj, cb: cb});
+  },
+
+  runEvents: function() {
+    var events = this.turnEvents[this.turn];
+    for (var i in events) {
+      if (events[i].obj.dead) {
+        continue;
+      }
+      events[i].cb(events[i].obj);
+    }
+    delete this.turnEvents[this.turn];
+  },
+
+  hasChampion: function(player, champion) {
+    for (var i in this.players[player].field) {
+      if (this.players[player].field[i].champion == champion) {
+        return true;
+      }
+    }    
+    return false;
   }
 }
 

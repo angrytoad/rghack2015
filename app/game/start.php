@@ -1,5 +1,18 @@
-<?php
+<?php	
+		
+	/*
+	 * This should be included whilst we are debugging the application
+	 */
 	
+	/*
+	 * Typically we'd handle this when we handle the back-end routing, but since we're calling specific scripts
+	 * we can just add it in here
+	 */
+	define('ROOT',$_SERVER['DOCUMENT_ROOT']);
+	require ROOT.'/rghack2015/app/services/classLoader.php';
+	
+	
+		
 	$deck = '["Zilean", "Kindred", "Brand", "Sona", "Teemo", "Caitlyn", "Chogath", "Karthus", "Bard", "Riven", "Rengar", "MasterYi", "Maokai", "Morgana", "Darius", "Soraka"]';
 	
 	error_reporting( E_ALL );
@@ -8,8 +21,8 @@
 	$address = 'http://52.32.183.170:3001/init';
 
 	$input = json_decode(file_get_contents("php://input"));
-
-	$data = array('deck' => $deck, "name" => $input->name, "id" => $input->id);
+	$nodeMastery = new NodeMasteryModel;
+	$data = array('deck' => $deck, "name" => $input->name, "id" => $input->id, "masteries" => $nodeMastery->loadMasteryById($input->id));
 
 	$options = array(
     	'http' => array(

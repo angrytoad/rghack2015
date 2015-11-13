@@ -163,8 +163,10 @@ angular.module("MatchApp", [])
   	}
 
   	$scope.endTurn = function(){
+  		$scope.submitAction({type: "endturn"}).then(function(){
+			soundController('yourTurn');
+		});
 
-  		$scope.submitAction({type: "endturn"});
   	}
 
   	$scope.performAttack = function(card, type){
@@ -208,6 +210,7 @@ angular.module("MatchApp", [])
   		if($scope.game.cardPlaced == false){
 	  		$scope.submitAction({type: "place", hand: card.id}).then(function(){
 	  			$scope.game.cardPlaced = true;
+				soundController('summon',card.championid);
 	  		})
   		}
   	}
