@@ -81,7 +81,7 @@ champions['Darius'] = new Champion(122, 'Darius', 24, 5, 'single', 4,
   for (var i in e) {
     if (e[i].id == t) {
       e[i].dealDamage(8);
-      if (e[i].hp <= 0) {
+      if (e[i].health <= 0) {
         s.currentCooldown = 0;
       }
     }
