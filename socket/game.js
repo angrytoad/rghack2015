@@ -86,6 +86,9 @@ var game = {
     var champion = this.players[player].deck.pop();
     console.log('Player ' + player + ' drawn ' + champion);
     var cardinstance = new Card(player, len, champion);
+    if (this.players[player].masteries[cardinstance.championid] != undefined) {
+      cardinstance.level = this.players[player].masteries[cardinstance.championid];
+    }
     this.players[player].hand[cardinstance.id] = cardinstance;
     var o = {
       type: "draw",

@@ -9,9 +9,13 @@ var Champion = function(id, name, health, damage, targetType, cooldown, descript
   this.cooldown = cooldown;
   this.description = description;
 }
-champions['Alistar'] = new Champion(12, 'Alistar', 20, 3, 'passive', 2, 
-  'Passive: Takes 50% less damage.'
+champions['Alistar'] = new Champion(12, 'Alistar', 20, 3, 'none', 4, 
+  'Alistar gains 2 damage and 50% damage reduction for your next two turns.'
   , function(a, e, t, s) {
+  s.damage += 2;
+  require('./game').addEvent(5, s, function(o) {
+    o.damage -= 2;
+  });
   // Ether freeze your cards or enemy's. Roll dice, based on what number you get resembles how many characters in the map you will freeze. 
 });
 champions['Bard'] = new Champion(432, 'Bard', 16, 4, 'passive', 2, 
@@ -38,7 +42,7 @@ champions['Brand'] = new Champion(63, 'Brand', 10, 9, 'single', 4,
     }
   }
 });
-champions['Chogath'] = new Champion(31, 'Chogath', 32, 3, 'single', 4,
+champions['Chogath'] = new Champion(31, 'Chogath', 32, 4, 'single', 4,
   'Noms: Deals 8 damage to the targeted enemy champion. Gains 5 health and max health if Cho`Gath kills the target.'
   , function(a, e, t, s) {
   // If chogath kills an enemy, he permenantly gains health
@@ -70,7 +74,7 @@ champions['Caitlyn'] = new Champion(51, 'Caitlyn', 8, 7, 'none', 4,
   }
   e[maxkey].dealDamage(20);
 });
-champions['Darius'] = new Champion(122, 'Darius', 24, 4, 'single', 4, 
+champions['Darius'] = new Champion(122, 'Darius', 24, 5, 'single', 4, 
   'Dunk! Deals 8 damage to the targeted enemy champion. Can cast again next turn if Darius kills the target.'
   , function(a, e, t, s) {
   // Damage an enemy, if you kill that enemy you can use your ult again next turn
@@ -144,14 +148,14 @@ champions['Sona'] = new Champion(37, 'Sona', 10, 6, 'none', 6,
   }
 });
 champions['Soraka'] = new Champion(16, 'Soraka', 14, 1, 'none', 4,
-  'Wish: Heals all ally champions 3 health.'
+  'Wish: Heals all ally champions 4 health.'
   , function(a, e, t, s) {
   for (var i in a) {
-    a[i].modifyHealth(3);
+    a[i].modifyHealth(4);
   }
 });
 champions['Teemo'] = new Champion(17, 'Teemo', 14, 5, 'passive', 0, 
-  'Passive: 50% to deal 4 shroom damage to the enemy champion that does basic attack whenever Teemo is in play.'
+  'Passive: 50% to deal 4 shroom damage to the enemy champion that does basic attack while Teemo is in play.'
   , function(a, e, t, s) {
   // When any enemy attacks, they roll, if they roll 4 or more they take damage
   // implemented
@@ -160,7 +164,7 @@ champions['Riven'] = new Champion(92, 'Riven', 22, 5, 'none', 4,
   'Riven gains 8 attack damage for your next two turns. Deals 4 damage to all enemy champions at your third turn.'
   , function(a, e, t, s) {
   // Use ult to increase basic attacks for the next 2 turns, on your third turn you can aoe for a small amount of damage
-  o.damage += 8;
+  s.damage += 8;
   require('./game').addEvent(5, s, function(o) {
     o.damage -= 8;
   });
