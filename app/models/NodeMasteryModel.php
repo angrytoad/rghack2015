@@ -1,9 +1,9 @@
 <?php
 
-	class SummonerModel extends RiotApi
+	class NodeMasteryModel extends RiotApi
 	{
 	
-	    public static function loadMasteryById($ID){
+	    public function loadMasteryById($ID){
 			return json_encode($this->getChampMasteries($ID));
 			
 	    }
