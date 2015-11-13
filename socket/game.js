@@ -137,6 +137,14 @@ var game = {
     if (cardobj.champion == "MasterYi") {
       targetobj.dealDamage(damage);
     }
+    var enemies = Object.keys(this.players[enemy].field);
+    if (cardobj.champion == "Bard" && enemies.length >= 2) {
+      var i = Math.floor(Math.random() * (enemies.length - 1));
+      if (enemies[i] == target) {
+        i++;
+      }
+      this.players[enemy].field[enemies[i]].dealDamage(3);
+    }
     this.checkDeath();
     if (cardobj.champion == "Kindred" && targetobj.dead) {
       card.damage += 2;

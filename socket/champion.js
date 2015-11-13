@@ -10,26 +10,10 @@ var Champion = function(id, name, health, damage, targetType, cooldown, descript
   this.description = description;
 }
 
-champions['Bard'] = new Champion(432, 'Bard', 16, 2, 'none', 2, 
-  'Each allied champion has 70% chance to become invulnerable for the next turn. Each enemy champion has 30% chance to become invulnerable until their next turn.'
+champions['Bard'] = new Champion(432, 'Bard', 16, 4, 'none', 2, 
+  'Passive: Deals 3 damage to a secondary target when Bard attacks.'
   , function(a, e, t, s) {
   // Ether freeze your cards or enemy's. Roll dice, based on what number you get resembles how many characters in the map you will freeze. 
-  for (var i in a) {
-    if (Math.random() < 0.7) {
-      a[i].invulnerable();
-      require('./game').addEvent(2, a[i], function(o) {
-        o.makeVulnerable();
-      });
-    }
-  }
-  for (var i in e) {
-    if (Math.random() < 0.3) {
-      e[i].invulnerable();
-      require('./game').addEvent(3, e[i], function(o) {
-        o.makeVulnerable();
-      });
-    }
-  }
 });
 champions['Brand'] = new Champion(63, 'Brand', 10, 9, 'single', 4, 
   'Pyroclasm: eals 8 damage to the targeted enemy champion and one other random enemy champion if there is any.'
@@ -138,7 +122,7 @@ champions['Rengar'] = new Champion(107, 'Rengar', 15, 7, 'none', 4,
   // Rengar goes 'On the hunt' for one turn, then on the next turn does bonus damage
   s.damage += 9;
   require('./game').addEvent(3, s, function(o) {
-    o.damage -= 7;
+    o.damage -= 9;
   });
 });
 champions['Sona'] = new Champion(37, 'Sona', 10, 6, 'none', 6,
