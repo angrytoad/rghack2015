@@ -22,7 +22,7 @@
 
 	$input = json_decode(file_get_contents("php://input"));
 	$nodeMastery = new NodeMasteryModel;
-	$data = array('deck' => $deck, "name" => $input->name, "id" => $input->id, "masteries" => $nodeMastery->loadMasteryById($input->id));
+	$data = array('deck' => $deck, "name" => $input->name, "id" => $input->id, "iconId" => $input->iconId, "masteries" => $nodeMastery->loadMasteryById($input->id));
 
 	$options = array(
     	'http' => array(

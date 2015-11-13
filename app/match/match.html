@@ -20,7 +20,7 @@
 								</h4>
 								
 								<!--health bar-->
-								<uib-progressbar class="progress-striped active" max="100" value="game.player0.currentHealth" type="danger"><i>{{game.player0.currentHealth}} / 100</i></uib-progressbar>
+								<uib-progressbar class="progress-striped active" max="20" value="game.player0.currentHealth" type="danger"><i>{{game.player0.currentHealth}} / 100</i></uib-progressbar>
 							</div>
 							<div class="media-right">
 								<div ng-if="game.playerNum == game.whosTurn">
@@ -91,7 +91,7 @@
 							<div class="media-body">
 								<h4>{{game.player1.name}}</h4>
 								<!--health bar-->
-								<uib-progressbar class="progress-striped active" max="100" value="game.player1.currentHealth" type="danger"><i>{{game.player1.currentHealth}} / 100</i></uib-progressbar>
+								<uib-progressbar class="progress-striped active" max="20" value="game.player1.currentHealth" type="danger"><i>{{game.player1.currentHealth}} / 100</i></uib-progressbar>
 							</div>
 							<div class="media-right">
 								<div ng-if="game.playerNum != game.whosTurn">

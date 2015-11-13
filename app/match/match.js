@@ -99,52 +99,52 @@ angular.module("MatchApp", [])
  	soundController('match');
 
  	player.onmessage = function(event) {
-    	//console.log(event.data);
+    	
+    	console.log(event.data);
     	var e = {};
     	$.extend(true, e, JSON.parse(event.data));
-
-    	console.log(e);
 
     	//TURNS
     	if(e.type == "turn"){
     		$scope.game.whosTurn = (e.data % 2 == User.playerNum) ? ($scope.game.cardPlaced = false, User.playerNum) : 1 - User.playerNum;
     	}
 
-    	else if(e.type == "hand"){
+    	if(e.type == "hand"){
     		$scope.game.player0.draw = e.data;
     	}
 
-    	else if(e.type == "player"){
+    	if(e.type == "player"){
     		$scope.game.player0.onField = e.data;
     	}
 
-    	else if(e.type == "enemy"){
+    	if(e.type == "enemy"){
     		$scope.game.player1.onField = e.data;
     	}
 
-    	else if(e.type == "death"){
+    	if(e.type == "death"){
     		//sound for death, e.data will be champion ID
     		soundController('death', '' + e.data);
     	}
 
-    	else if(e.type == "victory"){
+    	if(e.type == "victory"){
     		$scope.game.gameResult = 'victory';
     	}
 
-    	else if(e.type == "defeat"){
+    	if(e.type == "defeat"){
     		$scope.game.gameResult = "defeat";
     	}
 
-    	else if(e.type == "nexus"){
-    		$scope.game.player0.currentHealth = e.data[0];
+    	if(e.type == "nexus"){
+    		$scope.game.player0.currentHealth = e.data[User.playerNum];
+    		$scope.game.player1.currentHealth = e.data[1 - User.playerNum];
     	}
 
     	//ENEMY HAND
     	if(e.type == "enemyPlace"){
-    		$scope.game.player1.currentHealth = e.data[1];
+    		
     	}
 
-
+    	$scope.$digest();
   	};
 
   	$scope.submitAction = function(action){

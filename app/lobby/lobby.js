@@ -13,7 +13,7 @@ angular.module("LobbyApp", [])
             findMatch: function(User) {
                 var p = $q.defer();
                 console.log(User)
-                $http.post("game/start.php", {name: User.name, id: User.profileIconID})
+                $http.post("game/start.php", {name: User.name, id: User.summonerID, iconId: User.profileIconID})
                     .success(function(response) {
                         p.resolve(response);
                     })
