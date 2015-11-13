@@ -11,6 +11,7 @@
 						<div class="media" style="height: 70px">
 							<div class="media-left">
 								<img class="media-object" ng-src="http://ddragon.leagueoflegends.com/cdn/5.15.1/img/profileicon/{{game.player0.profileId}}.png" height="60px" style="border-left: solid 9px #2747e8"/>
+								<button type="button" class="btn btn-info" ng-click="sendTaunt()">Taunt</button>
 							</div>
 							<div class="media-body">
 								<h4>{{game.player0.name}}
@@ -18,7 +19,7 @@
 										<img ng-src="http://ddragon.leagueoflegends.com/cdn/5.22.3/img/champion/{{card.champion}}.png" height="33px"/>
 									</span>
 								</h4>
-								
+
 								<!--health bar-->
 								<uib-progressbar class="progress-striped active" max="20" value="game.player0.currentHealth" type="danger"><i>{{game.player0.currentHealth}} / 20</i></uib-progressbar>
 							</div>
@@ -115,4 +116,5 @@
 	<!--game result-->
 	<img src="images/victory.png" class="victory-banner" ng-if="game.gameResult == 'victory'"/>
 	<img src="images/defeat.png" class="victory-banner" ng-if="game.gameResult == 'defeat'"/>
+	<img src="images/taunt.png" class="victory-banner" ng-if="game.showTaunt"/>
 </div>

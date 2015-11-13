@@ -160,6 +160,13 @@ angular.module("MatchApp", [])
     		$scope.reviveAnimcation(e.data);
     	}
 
+    	if(e.type == "taunt"){
+    		$scope.game.showTaunt = true;
+    		$timeout(function(){
+    			$scope.game.showTaunt = false;
+    		}, 500);
+    	}
+
     	//ENEMY HAND
     	if(e.type == "enemyPlace"){
     		$log.info("enemyPlace");
@@ -234,6 +241,10 @@ angular.module("MatchApp", [])
   		$('#'+target).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 			$('#'+target).removeClass('animated flipInX');
 		});
+  	}
+
+  	$scope.sendTaunt = function(){
+  		$scope.submitAction({type: "taunt"});
   	}
 
   	$scope.attackAnimation = function(card){
