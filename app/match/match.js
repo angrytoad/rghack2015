@@ -204,6 +204,16 @@ angular.module("MatchApp", [])
   			$log.info("targetEnemy: Enemy Champion " + card.champion);
   			$scope.$broadcast("attack", {type: $scope.game.attackType, card: selectedCard, enemyCard: card});
   		}
+		$('#'+selectedCard.id).addClass('animated').addClass('flip');
+
+		$('#'+selectedCard.id).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$('#'+selectedCard.id).removeClass('animated flip');
+			$('#'+card.id).addClass('animated').addClass('shake');
+			$('#'+card.id).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+				$('#'+card.id).removeClass('animated shake');
+			});
+		});
+
   	}
 
   	$scope.placeCard = function(card){
