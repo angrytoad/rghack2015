@@ -3,6 +3,7 @@
 //javaglobals
 var mute = false;
 var attackedAnimation;
+var talkServer = "http://192.168.56.101:3000";
 
 angular.module('CoreApp', [
 	'ngRoute',

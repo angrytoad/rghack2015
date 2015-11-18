@@ -18,7 +18,7 @@
 	error_reporting( E_ALL );
 	ini_set( "display_errors", 1 );
 	
-	$address = 'http://52.32.183.170:3001/init';
+	$address = 'http://192.168.56.101/socket/init';
 
 	$input = json_decode(file_get_contents("php://input"));
 	$nodeMastery = new NodeMasteryModel;

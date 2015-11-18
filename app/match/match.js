@@ -32,7 +32,7 @@ angular.module("MatchApp", [])
 
 			$http({
 				method: "POST",
-				url: "http://52.32.183.170:3000/action",
+				url: talkServer + 'action',
 				data: $.param({
 					player: player,
 					action: JSON.stringify(action)
@@ -91,7 +91,7 @@ angular.module("MatchApp", [])
 	})
 
 	//socket stuff
-	var sourceUrl = 'http://52.32.183.170:3000/game?player=' + User.playerNum; 
+	var sourceUrl = talkServer + 'game?player=' + User.playerNum; 
 	console.log(sourceUrl);
 	var player = new EventSource(sourceUrl);
  	$scope.game.player0.draw = [];
